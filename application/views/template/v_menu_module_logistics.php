@@ -16,7 +16,7 @@
             </a>
         </li>
         <li class=" ">
-            <a href="<?php echo site_url('logistics/Generator_Exam');?>" title="การกระจายข้อสอบ">
+            <a href="<?php echo site_url('logistics/Distribution_Exam');?>" title="การกระจายข้อสอบ">
                 <span>การกระจายข้อสอบ</span>
             </a>
         </li>

@@ -14,8 +14,7 @@ class NEMs extends NEMs_Controller {
 	public function index()
 	{
 		/*NEMs*/
-		$data['test'] = "TEST NEMs";
-		$this->output('nems_index',$data);
+		redirect('registration/news/listview');
 	}
 
 }//end Class NEMs

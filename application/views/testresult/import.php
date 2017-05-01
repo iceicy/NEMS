@@ -1,140 +1,134 @@
-<?php 
-	// print_r($this->session->userdata);
-?>
-<div class="content-wrapper">
-    <div class="content-heading">
-        จัดการนำเข้าผลคะแนนสอบ
-        <small>คุณสามารถนำผลคะแนนสอบของผู้สอบ เข้าสู่ฐานข้อมูลส่วนกลางเพื่อทำการวิเคราะห์ประมวลผลของผู้สอบ</small>
-    </div>
 	
-	
-
-	  <?php if(isset($sheetData)): ?>
+	<div class="content-wrapper">
+		<div class="content-heading">
+			จัดการนำเข้าผลคะแนนสอบ
+			<small>คุณสามารถนำผลคะแนนสอบของผู้สอบ เข้าสู่ฐานข้อมูลส่วนกลางเพื่อทำการวิเคราะห์ประมวลผลของผู้สอบ</small>
+			<small style="margin-top:5px;">อัพโหลดไฟล์ผลคะแนนสอบ ด้วยนามสกุลไฟล์ .xls .csv สามารถโหลด template ตัวอย่างจาก <a href="<?php echo base_url("/uploads/upload_testresult/temp_tresult.csv") ?>">ที่นี่</a></small>
+		</div>
 		<div class="panel panel-default">
-		    <div class="panel-body">
-	  		<?php 
-		         $attr = array('class' => 'form-horizontal');
-	  			 echo form_open_multipart('testresult/import/completeimport/'.$fileName , $attr );
-	  		?>
-	  		<input class="btn btn-success" name="tresult_import_confirm" type="submit" value="ยืนยันการนำเข้า" />
-	  		<input class="btn btn-danger"  name="tresult_import_cancel" type="submit" value="ยกเลิกการนำเข้า" />
-	  		<input type="hidden" name="table_name" value="<?php echo $table_name; ?>" />
-	  		<input type="hidden" name="fileName" value="<?php echo $fileName; ?>" />
-	  		<?php 
-			echo form_close();
-		 ?>
-		 </div>
-	  	</div>
-	 <?php endif; ?>
+		<!-- <div class="panel-heading">Form elements</div> -->
+			<div class="panel-body">
 
-
-	<?php  if(!isset($sheetData)): ?>
-	<div class="panel panel-default">
-               <!-- <div class="panel-heading">Form elements</div> -->
-               <div class="panel-body">
-	<?php 
-		  	$attr = array('class' => 'form-horizontal');
-			echo form_open_multipart('testresult/import/importaction' , $attr );
-	?>
-			 	 	<br>
-                     <fieldset>
-      					 <div class="form-group">
-                           <label class="col-sm-2 control-label">การจัดสอบครั้งที่</label>
+				
+				<?php echo form_open_multipart('testresult/import/importaction'); ?>
+				 <fieldset>
+      					 <div class="form-group <?php echo (form_error('tresult_import_type')) ? 'has-error' : ''; ?>">
+                           <label class="col-sm-2 control-label">ประเภทการสอบ</label>
                            <div class="col-sm-10">
-                              <select name="tresult_import_test_round" class="form-control m-b">
-                                 <option>:: กรุณาเลือกการจัดสอบครั้งที่ ::</option>
-                                 <option>การจัดสอบครั้งที่ 1</option>
-                                 <option>การจัดสอบครั้งที่ 2</option>
-                                 <option>การจัดสอบครั้งที่ 3</option>
-                                 <option>การจัดสอบครั้งที่ 4</option>
-                              </select>
-                              <br>
-                           	   <small>เลือกการจัดสอบครั้งที่</small>
+						   <?php 
+								$data = array(
+								'name'          => 'tresult_import_type',
+								'id'            => 'tresult_import_type',
+								'class'			=> 'form-control'
+								);
+								$options = array(
+								''			   => 'เลือกประเภทการสอบ',
+								'onet'         => 'O-NET',
+								'gat_pat'           => 'GAT/PAT',
+								'enet'         => 'E-NET',
+								'nnet'        => 'N-NET',
+								);
+								echo form_dropdown('tresult_import_type', $options, set_value('tresult_import_type') , $data);
+								echo form_error('tresult_import_type');   
+						   ?>
                            </div>
                         </div>
                      </fieldset>
 
-                      <fieldset>
-      					 <div class="form-group">
+					<fieldset>
+      					 <div class="form-group <?php echo (form_error('tresult_import_test_round')) ? 'has-error' : ''; ?>">
+                           <label class="col-sm-2 control-label">ครั้งที่สอบ / ปีการศึกษา</label>
+                           <div class="col-sm-10">
+						   <?php 
+								$data = array(
+								'name'          => 'tresult_import_test_round',
+								'id'            => 'tresult_import_test_round',
+								'class'			=> 'form-control'
+								);
+								$options = array(
+								''			   => 'เลือกครั้งที่สอบ / ปีการศึกษา',
+								'1/2557'         => 'การจัดสอบครั้งที่ 1/2557',
+								'2/2558'           => 'การจัดสอบครั้งที่ 2/2558',
+								'3/2559'         => 'การจัดสอบครั้งที่ 3/2559',
+								'4/2560'        => 'การจัดสอบครั้งที่ 4/2560',
+								);
+								echo form_dropdown('tresult_import_test_round', $options, set_value('tresult_import_test_round') , $data);
+								echo form_error('tresult_import_test_round');   
+						   ?>
+                           </div>
+                        </div>
+                     </fieldset>
+					 
+
+					<fieldset>
+      					 <div class="form-group <?php echo (form_error('tresult_import_subject')) ? 'has-error' : ''; ?>">
                            <label class="col-sm-2 control-label">เลือกรายวิชาผลคะแนนสอบ</label>
                            <div class="col-sm-10">
-                              <select name="tresult_import_subject" class="form-control m-b">
-                                 <option>:: กรุณาเลือกวิชาของผลคะแนนสอบ ::</option>
-                                 <option>SWE605 (613) Software varification and validation</option>
-                                 <option>SWE604 (606) Software Structures and Architecture</option>
-                                 <option>SWE651 Software Metrics</option>
-                                 <option>SWE610 Software Engineering Principles</option>
-                              </select>
-                              <br>
-                           	   <small>เลือกรายวิชาของผลคะแนนสอบ</small>
+						   <?php 
+								$data = array(
+								'name'          => 'tresult_import_subject',
+								'id'            => 'tresult_import_subject',
+								'class'			=> 'form-control',
+								'value'         => set_value('tresult_import_subject'),
+								);
+								$options = array(
+								''			   => 'เลือกรายวิชาผลคะแนนสอบ',
+								'swe605'         => 'SWE605 (613) Software varification and validation',
+								'swe604'           => 'SWE604 (606) Software Structures and Architecture',
+								'swe651'         => 'SWE651 Software Metrics',
+								'swe610'        => 'SWE610 Software Engineering Principles',
+								);
+								echo form_dropdown('tresult_import_subject', $options, set_value('tresult_import_subject') , $data);
+								echo form_error('tresult_import_subject');   
+						   ?>
                            </div>
                         </div>
                      </fieldset>
 
-                     <fieldset>
-                     	<div class="form-group">
+					   <fieldset>
+						<div class="form-group <?php echo (form_error('tresult_import_file')) ? 'has-error' : ''; ?>">
                            <label class="col-sm-2 control-label">อัพโหลดไฟล์</label>
                            <div class="col-sm-10">
-							<input name="tresult_import_file" type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle"><br>
-							<?php 
-								if(isset($message_upload)){
-									echo "<small style='color:red !important;'>$message_upload</small>";
-								}else{
-							?>
-							   <small>อัพโหลดไฟล์ผลคะแนนสอบ ด้วยนามสกุลไฟล์ .xls .csv สามารถโหลด template ตัวอย่างจาก <a href="<?php echo base_url("/uploads/upload_testresult/temp_tresult.csv") ?>">ที่นี่</a></small>
-							<?php
-								}
-							  ?>
+						    <?php 
+								$data = array(
+								'name'          => 'tresult_import_file',
+								'id'            => 'tresult_import_file',
+								'class'			=> 'form-control',
+								);
+								echo form_upload($data);
+								echo form_error('tresult_import_file');   
+								// if(isset($upload_error)){
+								// 	echo '<small class="text-danger">'.$upload_error.'</small>';
+								// }
+						   ?>
                            </div>
                         </div>
                      </fieldset>
 
-                     <fieldset>
+
+					   <fieldset>
                         <div class="form-group">
                            <div class="col-sm-4 col-sm-offset-2">
-                              <button type="submit" class="btn btn-success" name="tresult_import_submit" value="tresult_import_submit">ยืนยันการนำเข้า</button>
-                           </div>
+							<?php
+
+									$data = array(
+										'name'          => 'tresult_import_submit',
+										'id'            => 'tresult_import_submit',
+										'class'			=> 'btn btn-success',
+										'value'         => 'ยืนยันการนำเข้า'
+									);
+									echo form_submit($data);
+								
+								?>             
+				                </div>
                         </div>
                      </fieldset>
-                  </form>
-               </div>
-            </div>
-
-<?php echo form_close();
-endif;
- ?>
+				<?php echo form_close(); ?>
 
 
-<div class="panel panel-default" style="margin-top:10px;">
-		<div class="panel-body">
-			<table class="testresult_datatable table table-striped table-hover">
-	 		<?php if(isset($sheetData)): ?>
-					<thead>
-						<tr>
-						<?php foreach ($table_column as $key => $field):  ?>
-							<th><?php echo $field; ?></th>
-						<?php endforeach; ?>
-						</tr>	
-					</thead>
-
-					<tbody>
-						<?php foreach ($sheetData as $key => $row):  ?>
-							<tr>
-							<?php foreach ($row as $key => $column):  ?>
-								<td><?php echo $column; ?></td>
-						     	<?php endforeach; ?>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-
-		<?php else: ?>
-				<h4 class="text-center text-danger">ยังไม่มีการนำเข้าข้อมูลผลคะแนนสอบ</h4>
-		<?php endif; ?>
-		</table>
+			</div>
+			<!--end panel-body-->
+		</div>
+		<!--end panel-master-->
 	</div>
-</div>
-
-
-
-
-
+	<!--end content-wrapper-->
