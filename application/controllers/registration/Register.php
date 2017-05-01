@@ -11,8 +11,8 @@ class Register extends NEMs_Controller
     public function __construct()
     {
         parent::__construct();
-        //$this->load->helper('form');
-        //$this->load->library('form_validation');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
     }
 
     public function form()
@@ -20,16 +20,17 @@ class Register extends NEMs_Controller
         $this->output('registration/register/form');
     }
 
+    /* === function save profile === */
     public function saveaction()
     {
+        $this->form_validation->set_rules('tresult_import_subject', 'เลือกรายวิชาผลคะแนนสอบ', 'required',
+                  array('required' => '<small class="text-danger">กรุณาเลือก%s</small>')
+        );
         //echo '<pre>';
         $this->_print($this->input->post());
         //echo '</pre>';
-
-        if (empty($_FILES['tresult_import_file']['name'])) {
-            return false;
-        } else {
-            return true;
+        $this->_print($_FILES);
+        if (!empty($_FILES['field']['name']['pic'])) {
         }
         exit;
     }
