@@ -148,7 +148,8 @@
   <div class="form-group">
      <label class="col-lg-3 control-label">*E-mail</label>
      <div class="col-lg-5">
-        <input type="email" required placeholder="E-mail" name="field[email]" class="form-control" value="mail@mail.com">
+        <input <?php echo (form_error('email')) ? 'has-error' : ''; ?>" type="email" required placeholder="E-mail" name="field[email]" class="form-control" value="mail@mail.com">
+        <?php echo form_error('tresult_import_type'); ?> 
      </div>
   </div>
   <br>
