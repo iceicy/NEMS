@@ -65,11 +65,11 @@
                     <div class="form-group">
                        <label class="col-lg-3 control-label">ชื่อ</label>
                        <div class="col-lg-3">
-                       <input type="text" placeholder="ชื่อ" class="form-control">
+                       <input type="text" placeholder="ชื่อ" required class="form-control">
                        </div>
                        <label class="col-lg-2 control-label">นามสกุล</label>
                       <div class="col-lg-3">
-                      <input type="text" placeholder="นามสกุล" class="form-control">
+                      <input type="text" placeholder="นามสกุล" required class="form-control">
                       </div>
                     </div>
 <br>
@@ -148,21 +148,21 @@
   <div class="form-group">
      <label class="col-lg-3 control-label">*E-mail</label>
      <div class="col-lg-5">
-        <input type="email" placeholder="E-mail" class="form-control">
+        <input type="email" required placeholder="E-mail" class="form-control">
      </div>
   </div>
   <br>
   <div class="form-group">
      <label class="col-lg-3 control-label">*Password</label>
      <div class="col-lg-5">
-        <input type="password" placeholder="Password" class="form-control">
+        <input type="password" required placeholder="Password" class="form-control">
      </div>
   </div>
   <br>
   <div class="form-group">
      <label class="col-lg-3 control-label">*Re-type Password</label>
      <div class="col-lg-5">
-        <input type="password" placeholder="Password" class="form-control">
+        <input type="password" required placeholder="Password" class="form-control">
      </div>
   </div>
 <br>
