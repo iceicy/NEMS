@@ -15,7 +15,7 @@
                   </div>
                   <div class="panel-body">
 
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" role="form" data-parsley-validate="" novalidate="" action="">
 
                   <fieldset>
                      <legend>ข้อมูลทั่วไป</legend>
@@ -24,7 +24,7 @@
                     <div class="form-group">
                        <label class="col-lg-4 control-label">เลขบัตรประจำตัวประชาชน</label>
                        <div class="col-lg-5">
-                          <input type="text" placeholder="เลขบัตรประจำตัวประชาชน" class="form-control">
+                          <input type="text" placeholder="เลขบัตรประจำตัวประชาชน" required class="form-control">
                        </div>
                     </div>
                     <br>
@@ -193,3 +193,5 @@
       <!-- END row-->
    </div>
 </section>
+<!-- PARSLEY-->
+<script src="<?php echo base_url(); ?>assets/vendor/parsleyjs/dist/parsley.min.js"></script>
