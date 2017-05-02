@@ -50,7 +50,7 @@
                   </div>
                   <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
                </form>
-               <p class="pt-lg text-center">Need to Signup?</p><a href="<?php echo site_url('registration/register/form'); ?>" class="btn btn-block btn-default">Register Now</a>
+               <p class="pt-lg text-center">Need to Signup?</p><a href="<?php echo site_url('registration/singup/register'); ?>" class="btn btn-block btn-default">Register Now</a>
             </div>
          </div>
          <!-- END panel-->
