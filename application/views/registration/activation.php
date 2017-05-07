@@ -83,7 +83,23 @@
 <body>
 <div class="">
     <div class="col-lg-12">
+      <?php //echo $st_ck;
+      if ($st_ck == 'wait_confirm') {
+          ?>
       <p>Thank You! Please check your email to activate <a href="<?php echo site_url('registration/login'); ?>">Login</a></p>
+      <?php
+
+      } elseif ($st_ck == 'activated') {
+          ?>
+      <p>Thank You Activate Completed <a href="<?php echo site_url('registration/login'); ?>">Login</a></p>
+      <?php
+
+      } else {
+          ?>
+      <p>System have problem !! Please try activate again</p>
+      <?php
+
+      } ?>
     </div>
 </div>
 </body>

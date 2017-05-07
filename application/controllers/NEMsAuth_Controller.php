@@ -9,13 +9,17 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class NEMs_Controller extends CI_Controller
+class NEMsAuth_Controller extends CI_Controller
 {
     public $data;
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('url');
+        if (!$this->session->userdata('user_name')) {
+            redirect(site_url('registration/login'), 'refresh');
+        }
         $this->data = array();
     }
 
@@ -33,11 +37,7 @@ class NEMs_Controller extends CI_Controller
         if ($data != '') {
             $this->data = array_merge($this->data, $data);
         }
-
-//        $this->header();
         $this->data['body'] = $this->load->view($views, $this->data, true);
-        //print_r($this->data);
         $this->load->view('template/v_html_template', $this->data);
-//        $this->footer();
     }
 }
