@@ -24,6 +24,15 @@ class News extends NEMs_Controller
     }
     public function listview()
     {
+        //$this->_print($this->session->userdata());
         $this->output('registration/news/listview');
+    }
+    public function _print($mval = '')
+    {
+        if ($mval) {
+            echo '<pre>';
+            print_r($mval);
+            echo '</pre>';
+        }
     }
 }
