@@ -14,8 +14,6 @@
                      <div class="panel-body">
                         <p class="clearfix">
                            <span class="pull-left">
-                              <small class="mr-sm">By <a href="">RUNGROJ KHWUNKOMOL</a>
-                              </small>
                               <small class="mr-sm">Mar 08, 2017</small>
                            </span>
                            <!--span class="pull-right">
