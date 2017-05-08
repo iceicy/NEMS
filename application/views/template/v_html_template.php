@@ -107,8 +107,16 @@
                                 </div>
                                 <!-- Name and Job-->
                                 <div class="user-block-info">
-                                    <span class="user-block-name">Software Engineering, KMUTT</span>
-                                    <span class="user-block-role">SE 13th</span>
+                                    <?php
+                                      $fname = '';
+                                      $fname .= $this->session->userdata('title').' ';
+                                      $fname .= $this->session->userdata('first_name').' ';
+                                      $fname .= $this->session->userdata('last_name');
+                                      ?>
+                                    <span class="user-block-name"><?php echo $fname; ?></span>
+                                    <span class="user-block-role"><?php echo $this->session->userdata('student_ID'); ?></span>
+                                    <!--span class="user-block-name">Software Engineering, KMUTT</span>
+                                    <span class="user-block-role">SE 13th</span-->
                                 </div>
                             </div>
                         </div>

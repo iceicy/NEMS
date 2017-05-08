@@ -52,12 +52,14 @@ function validate_form_payment(forms){
 				*/					
 				//console.log( elementform[i].tagName);
 				if(elementform[i].tagName == "select" || elementform[i].tagName == "SELECT"){
+					console.log( elem_id);
 					var selector = document.getElementById(elem_id);
-					var selector_value = selector[selector.selectedIndex].value;
+				//	var selector_value = selector[selector.selectedIndex].value;
+					var selector_value = selector.options[selector.selectedIndex].value;
 					//console.log(elem_id + " = " +selector_value);
 					
 					//เมื่อไม่มีค่า
-					if(selector_value == "" || selector_value ==0 ){
+					if(selector_value == "" || selector_value ==0 || selector_value == undefined){
 						if( $(elem).hasClass("select2")){
 							var searchEles = document.getElementById(prev_ele).children;						
 							$(searchEles).each(function( index ) {
