@@ -1,6 +1,54 @@
 <!-- SWEET ALERT-->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/sweetalert/dist/sweetalert.css">
+
 <script type="text/javascript">
+  function optiondistrict(){
+    var mval = $('#province').val();
+    $('#district').empty();
+    $('#district').append($('<option>').text(" -- อำเภอ -- "));
+    if(mval){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo site_url().'/registration/singup/renderOptDistrict'; ?>",
+        data: {	'province' : mval},
+        dataType : "json",
+        success : function(data){
+          //console.log(data.opt_district);
+            if(data.opt_data){
+              $.each(data.opt_data, function(i, obj){
+                  $('#district').append($('<option>').text(obj).attr('value', obj));
+              });
+            }
+        }
+      });
+    }
+  }
+  function optionsubdistrict(){
+    var mval = $('#province').val();
+    var district = $('#district').val();
+    $('#sub_district').empty();
+    $('#sub_district').append($('<option>').text(" -- ตำบล -- "));
+    $('#zipcode').val('');
+    //if(mval && district){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo site_url().'/registration/singup/renderOptsubDistrict'; ?>",
+        data: {	'province' : mval,'district' : district},
+        dataType : "json",
+        success : function(data){
+          //console.log(data.opt);
+            if(data.opt_data){
+              $.each(data.opt_data, function(i, obj){
+                  $('#sub_district').append($('<option>').text(obj).attr('value', obj));
+              });
+            }
+            if(data.zipcode){
+              $('#zipcode').val(data.zipcode);
+            }
+        }
+      });
+
+  }
   function checkValidmail(){
       //console.log('====');
       var mval = $('#email').val();
@@ -204,24 +252,63 @@
                     </div>
                   <br>
                     <div class="form-group">
+                      <label class="col-lg-3 control-label">จังหวัด</label>
+                      <div class="col-lg-3">
+                        <select required id="province" name="field[province]" class="form-control" onchange="optiondistrict();optionsubdistrict();">
+                        <option> -- จังหวัด -- </option>
+                        <?php
+                          if ($optProvince) {
+                              $ckselect = (isset($mdata['province'])) ? $mdata['province'] : '';
+                              foreach ($optProvince as $ival) {
+                                  $sel = '';
+                                  $sel = ($ckselect === $ival) ? 'selected' : '';
+                                  echo '<option '.$sel.'>'.$ival.'</option>';
+                              }
+                          }
+                        ?>
+                        </select>
+                        <!--input type="text" placeholder="จังหวัด" name="" class="form-control"><!--field[province]-->
+                      </div>
                       <label class="col-lg-3 control-label">อำเภอ</label>
                       <div class="col-lg-3">
-                        <input type="text" placeholder="อำเภอ" name="" class="form-control"><!--name="field[district]"-->
-                      </div>
-                      <label class="col-lg-3 control-label">ตำบล</label>
-                      <div class="col-lg-3">
-                        <input type="text" placeholder="ตำบล" name="" class="form-control"><!--name="field[sub_district]"-->
+                        <select required id="district" name="field[district]" class="form-control" onchange="optionsubdistrict();">
+                        <option> -- อำเภอ -- </option>
+                        <?php
+                          if ($optDistrict) {
+                              $ckselect = (isset($mdata['district'])) ? $mdata['district'] : '';
+                              foreach ($optDistrict as $ival) {
+                                  $sel = '';
+                                  $sel = ($ckselect === $ival) ? 'selected' : '';
+                                  echo '<option '.$sel.'>'.$ival.'</option>';
+                              }
+                          }
+                        ?>
+                        </select>
+                        <!--input type="text" placeholder="อำเภอ" name="" class="form-control"><!--name="field[district]"-->
                       </div>
                     </div>
                     <br>
                     <div class="form-group">
-                      <label class="col-lg-3 control-label">จังหวัด</label>
+                      <label class="col-lg-3 control-label">ตำบล</label>
                       <div class="col-lg-3">
-                        <input type="text" placeholder="จังหวัด" name="" class="form-control"><!--field[province]-->
+                        <select required id="sub_district" name="field[sub_district]" class="form-control">
+                        <option> -- ตำบล -- </option>
+                        <?php
+                          if ($optSubdis) {
+                              $ckselect = (isset($mdata['sub_district'])) ? $mdata['sub_district'] : '';
+                              foreach ($optSubdis as $ival) {
+                                  $sel = '';
+                                  $sel = ($ckselect === $ival) ? 'selected' : '';
+                                  echo '<option '.$sel.'>'.$ival.'</option>';
+                              }
+                          }
+                        ?>
+                        </select>
+                        <!--input type="text" placeholder="ตำบล" name="" class="form-control"><!--name="field[sub_district]"-->
                       </div>
                       <label class="col-lg-3 control-label">รหัสไปรษณีย์</label>
                       <div class="col-lg-3">
-                        <input type="text" placeholder="รหัสไปรษณีย์" name="" class="form-control"><!--field[zcode]-->
+                        <input type="text" required data-parsley-length="[5, 5]" placeholder="รหัสไปรษณีย์" id="zipcode" name="field[zipcode]" value="<?php echo (isset($mdata['zipcode'])) ? $mdata['zipcode'] : ''; ?>" class="form-control"><!--field[zcode]-->
                       </div>
                     </div>
                   <br>
@@ -340,7 +427,6 @@
                   </div>
                </div>
                <!-- END panel-->
-
          </div>
       </div>
       <!-- END row-->

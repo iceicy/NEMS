@@ -16,6 +16,14 @@ class Singup extends NEMs_Controller
 
     public function register()
     {
+        /* == get option ==*/
+        $optProvince = $optDistrict = $optSubdis = array();
+        $optProvince = $this->getoptprovince();
+        $optDistrict = $this->getoptdistrict();
+        $optSubdis = $this->getoptsubdist();
+        $this->data['optProvince'] = $optProvince;
+        $this->data['optDistrict'] = $optDistrict;
+        $this->data['optSubdis'] = $optSubdis;
         $this->data['head_name'] = 'Register';
         $this->data['mode'] = 'new';
         $this->data['n_controler'] = 'singup';
@@ -68,7 +76,10 @@ class Singup extends NEMs_Controller
             if ($address) {
                 //tb_address
                 $address['citizen_ID'] = $student_ID;
-                $address['tb_province_province_ID'] = '100101'; //Fix For test
+                $ckProID = $address;
+                $tb_province_province_ID = $this->getProvinceID($ckProID);
+                unset($address['province'], $address['district'], $address['sub_district'], $address['zipcode']);
+                $address['tb_province_province_ID'] = $tb_province_province_ID; //Fix For test
                 $this->db->insert('tb_address', $address);
             }
             if ($student) {
@@ -91,6 +102,22 @@ class Singup extends NEMs_Controller
             $this->data['st_ck'] = 'wait_confirm';
             $this->load->view('registration/activation', $this->data);
         }
+    }
+    public function getProvinceID($arrCk)
+    {
+        $province_ID = $sql = $where = '';
+        $where = "province LIKE '".$arrCk['province']."' AND district LIKE '".$arrCk['province']."'";
+        $where .= " AND sub_district LIKE '".$arrCk['sub_district']."' AND zipcode = '".$arrCk['zipcode']."'";
+
+        $sql = 'SELECT province_ID FROM tb_province WHERE '.$where;
+      //echo $sql;
+      $query = $this->db->query($sql);
+        $row = $query->row();
+        if (isset($row)) {
+            $province_ID = $row->province_ID;
+        }
+
+        return $province_ID;
     }
     public function send_email($verify)
     {
@@ -123,7 +150,6 @@ class Singup extends NEMs_Controller
         $data['ck_dup'] = $ckdup;
         echo json_encode($data);
     }
-
     // check dup mail
     public function callback_check_mail()
     {
@@ -176,6 +202,92 @@ class Singup extends NEMs_Controller
             $this->data['st_ck'] = ($ck == true) ? 'activated' : 'error';
             $this->load->view('registration/activation', $this->data);
         }
+    }
+
+    public function getoptprovince()
+    {
+        $optProvince = array();
+        $sql = '';
+        $sql = ' SELECT province FROM tb_province GROUP BY `province` ORDER BY `province` ASC ';
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            if ($row['province']) {
+                $optProvince[$row['province']] = $row['province'];
+            }
+        }
+
+        return $optProvince;
+    }
+    public function getoptdistrict($province = '')
+    {
+        /* == get option ==*/
+        $optDistrict = array();
+        $where = $sql = '';
+        if ($province) {
+            $where = " AND province LIKE '".$province."'";
+        }
+        $sql = ' SELECT district FROM tb_province WHERE 1 '.$where.' GROUP BY `district` ORDER BY `district` ASC ';
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            if ($row['district']) {
+                $optDistrict[$row['district']] = $row['district'];
+            }
+        }
+
+        return $optDistrict;
+    }
+    public function getoptsubdist($province = '', $district = '')
+    {
+        $optSubdis = array();
+        $where = $sql = '';
+        if ($province) {
+            $where = " AND province LIKE '".$province."'";
+        }
+        if ($district) {
+            $where .= " AND district LIKE '".$district."'";
+        }
+        $sql = ' SELECT sub_district FROM tb_province WHERE 1 '.$where.' GROUP BY `sub_district` ORDER BY `sub_district` ASC ';
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            if ($row['sub_district']) {
+                $optSubdis[$row['sub_district']] = $row['sub_district'];
+            }
+        }
+
+        return $optSubdis;
+    }
+    // render option District
+    public function renderOptDistrict()
+    {
+        $optDistrict = array();
+        $province = '';
+        $province = $this->input->post('province');
+        $optDistrict = $this->getoptdistrict($province);
+        //echo $ckdup;
+        $data['opt_data'] = $optDistrict;
+        echo json_encode($data);
+    }
+    // render option sub District
+    public function renderOptsubDistrict()
+    {
+        $opt = array();
+        $province = $district = $where = $zipcode = '';
+        $province = $this->input->post('province');
+        $district = $this->input->post('district');
+        $opt = $this->getoptsubdist($province, $district);
+        //echo $ckdup;
+        if ($province && $district) {
+            $where = " AND province LIKE '".$province."' AND district LIKE '".$district."'";
+            $sql = ' SELECT zipcode FROM tb_province WHERE 1 '.$where.' GROUP BY `zipcode` ORDER BY `zipcode` ASC ';
+            $query = $this->db->query($sql);
+            $row = $query->row();
+            if (isset($row)) {
+                $zipcode = $row->zipcode;
+            }
+        }
+        $data['opt_data'] = $opt;
+        $data['zipcode'] = $zipcode;
+        echo json_encode($data);
     }
 
     public function _print($mval = '')

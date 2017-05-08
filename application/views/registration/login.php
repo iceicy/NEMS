@@ -39,11 +39,11 @@
                      <span class="fa fa-envelope form-control-feedback text-muted"></span>
                   </div-->
                   <div class="form-group has-feedback">
-                     <input type="text" placeholder="Enter ID" autocomplete="off" required class="form-control" value="" name="user_name">
+                     <input type="text" placeholder="Enter ID" autocomplete="off" required maxlength="13" data-parsley-length="[13, 13]" class="form-control" value="" name="user_name">
                      <span class="fa fa-key form-control-feedback text-muted"></span>
                   </div>
                   <div class="form-group has-feedback">
-                     <input id="exampleInputPassword1" type="password" placeholder="Password" required class="form-control" value="" name="password">
+                     <input id="exampleInputPassword1" type="password" placeholder="Password" required maxlength="8" class="form-control" value="" name="password">
                      <span class="fa fa-lock form-control-feedback text-muted"></span>
                   </div>
                   <div class="clearfix">
