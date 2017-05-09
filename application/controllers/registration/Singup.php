@@ -79,14 +79,19 @@ class Singup extends NEMs_Controller
                 $ckProID = $address;
                 $tb_province_province_ID = $this->getProvinceID($ckProID);
                 unset($address['province'], $address['district'], $address['sub_district'], $address['zipcode']);
+
                 $address['tb_province_province_ID'] = $tb_province_province_ID; //Fix For test
                 $this->db->insert('tb_address', $address);
             }
             if ($student) {
                 //tb_student
-                if (!empty($_FILES['field']['name']['pic'])) {
+                if (!empty($_FILES['student']['name']['student_pic'])) {
+                    $ext = pathinfo($_FILES['student']['name']['student_pic'], PATHINFO_EXTENSION);
+                    $Path = 'uploads/registration/register';
+                    $filename = $Path.'/'.$student_ID.'.'.$ext;
+                    copy($_FILES['student']['tmp_name']['student_pic'], $filename);
+                    $student['student_pic'] = ($filename) ? $filename : '';
                 }
-                $student['student_pic'] = '';
                 $student['created_date'] = $u_time;
                 $student['tb_contact_contact_ID'] = $student_ID;
                 $student['tb_address_citizen_ID'] = $student_ID;
@@ -106,12 +111,12 @@ class Singup extends NEMs_Controller
     public function getProvinceID($arrCk)
     {
         $province_ID = $sql = $where = '';
-        $where = "province LIKE '".$arrCk['province']."' AND district LIKE '".$arrCk['province']."'";
+        $where = "province LIKE '".$arrCk['province']."' AND district LIKE '".$arrCk['district']."'";
         $where .= " AND sub_district LIKE '".$arrCk['sub_district']."' AND zipcode = '".$arrCk['zipcode']."'";
 
         $sql = 'SELECT province_ID FROM tb_province WHERE '.$where;
-      //echo $sql;
-      $query = $this->db->query($sql);
+        //echo $sql;
+        $query = $this->db->query($sql);
         $row = $query->row();
         if (isset($row)) {
             $province_ID = $row->province_ID;

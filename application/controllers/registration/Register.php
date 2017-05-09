@@ -81,8 +81,6 @@ class Register extends NEMsAuth_Controller
         $email = $contact['e-mail'];
         //$this->_print($this->input->post('student'));
         //$this->_print($_FILES);
-        //if (!empty($_FILES['field']['name']['pic'])) {
-        //}
         if ($student_ID && $email) {
             $u_time = date('Y-m-d H:i:s');
             if ($user) {
@@ -110,7 +108,12 @@ class Register extends NEMsAuth_Controller
             }
             if ($student) {
                 //tb_student
-                if (!empty($_FILES['field']['name']['pic'])) {
+                if (!empty($_FILES['student']['name']['student_pic'])) {
+                    $ext = pathinfo($_FILES['student']['name']['student_pic'], PATHINFO_EXTENSION);
+                    $Path = 'uploads/registration/register';
+                    $filename = $Path.'/'.$student_ID.'.'.$ext;
+                    copy($_FILES['student']['tmp_name']['student_pic'], $filename);
+                    $student['student_pic'] = ($filename) ? $filename : '';
                 }
                 $student['created_date'] = $u_time;
                 $this->db->where('student_ID', $student_ID);

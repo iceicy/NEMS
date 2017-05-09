@@ -191,9 +191,14 @@
 </div>
 <div class="col-lg-3">
     <div class="block-center col-md-12">
+      <?php //echo base_url();
+          $pathpic = '';
+          $pic = (isset($mdata['student_pic']) && $mdata['student_pic'] != '') ? $mdata['student_pic'] : 'assets/img/user/profil-pic_dummy.png';
+          $pathpic = base_url().$pic;
+        ?>
     <img
     alt=""
-    src="<?php echo base_url(); ?>assets/img/user/profil-pic_dummy.png"
+    src="<?php echo $pathpic; ?>"
     class="block-center media-box-object img-responsive img-rounded thumb128"/>
   </div>
 </div>
