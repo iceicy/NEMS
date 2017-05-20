@@ -160,7 +160,7 @@
     </section>
     <!-- Page footer-->
     <footer>
-        <span>&copy; 2016 - Angle</span>
+        <span>&copy; 2016 - NEMs</span>
     </footer>
 </div>
 </body>
