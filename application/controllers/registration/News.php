@@ -29,7 +29,7 @@ class News extends NEMs_Controller
         if ($mval) {
             echo '<pre>';
             print_r($mval);
-            echo '</pre>';
+            echo '</pre>12334';
         }
     }
 <<<<<<< HEAD
