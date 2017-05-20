@@ -71,16 +71,20 @@
     <script src="<?php echo base_url(); ?>assets/js/register/regis.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
-    
+
     <!-- include javascript of testresult -->
     <!-- DATATABLES-->
     <script src="<?php echo base_url(); ?>assets/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+
     <script src="<?php echo base_url(); ?>assets/js/testresult/app.js""></script>  
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/js/testresult/app.js""></script>
+
 
 </head>
 

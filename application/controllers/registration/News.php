@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
@@ -18,6 +17,7 @@ class News extends NEMs_Controller
         $data['form'] = null;
         $this->output('registration/news/form',$data);
     }
+
     public function form_edit()
     {
         $news_id = $this->input->post('news_id');
@@ -88,7 +88,6 @@ class News extends NEMs_Controller
     }
     public function listview()
     {
-<<<<<<< HEAD
         $data['qu_first_news'] = $this->form->get_first_news();
         $data['qu_news_more'] = $this->form->get_news_more();
         $data['qu_first_news_pin'] = $this->form->get_first_news_pin();
@@ -127,7 +126,6 @@ class News extends NEMs_Controller
 
     }
 
-=======
         //$this->_print($this->session->userdata());
         $this->output('registration/news/listview');
     }
@@ -136,8 +134,12 @@ class News extends NEMs_Controller
         if ($mval) {
             echo '<pre>';
             print_r($mval);
+
             echo '</pre>';
         }
     }
->>>>>>> origin/master
+            echo '</pre>12334';
+        }
+    }
+
 }
