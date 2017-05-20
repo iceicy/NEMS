@@ -120,6 +120,7 @@ class Login extends CI_Controller
             print_r($mval);
             echo '</pre>';
         }
+<<<<<<< HEAD
     }
     public function checkaction()
     {
@@ -171,5 +172,7 @@ class Login extends CI_Controller
             print_r($mval);
             echo '</pre>';
         }
+=======
+>>>>>>> origin/dev-random
     }
 }

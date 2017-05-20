@@ -32,4 +32,8 @@ class News extends NEMs_Controller
             echo '</pre>';
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/dev-random
