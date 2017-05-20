@@ -24,7 +24,51 @@ class Login extends CI_Controller
     }
     public function recover()
     {
-        $this->load->view('registration/recover.php');
+        $this->data['err_msg'] = '';
+        $this->load->view('registration/recover.php', $this->data);
+    }
+    public function checkrecover()
+    {
+        $student_ID = $email = '';
+        $this->data['err_msg'] = '';
+        $_user = '';
+        //$this->_print($this->input->post());
+        $student_ID = $this->input->post('user_name');
+        $email = $this->input->post('email');
+        $ck = false;
+        if ($student_ID && $email) {
+            $sql = " SELECT T1.user_name
+                    FROM tb_user_login T1
+                    LEFT JOIN tb_contact T4 ON T1.user_name = T4.contact_ID
+                    WHERE T1.user_name = '".trim($student_ID)."' AND T4.`e-mail` = '".$email."' AND T1.account_status = 'Activated'";
+            $query = $this->db->query($sql);
+            $row = $query->row();
+            if (isset($row)) {
+                //echo $row->user_name;
+                $_user = $row->user_name; //json_decode(json_encode($row), true);
+                //$this->_print($arruser);
+                $ck = true; // dup
+            } else {
+                $ck = false;
+            }
+        } else {
+            $ck = false;
+        }
+        //var_dump($ck);
+        //exit;
+        if ($ck == false) { // check mail
+            $this->data['err_msg'] = '<small class="text-danger">Please Check ID or Email !!</small>';
+            $this->load->view('registration/recover.php', $this->data);
+        } else {
+            $this->data['st_ck'] = 'recover';
+            $npass = rand(1000, 99999999);
+            $this->data['npass'] = $npass;
+            $userArr = array();
+            $userArr['password'] = md5($npass);
+            $this->db->where('user_name', trim($student_ID));
+            $this->db->update('tb_user_login', $userArr);
+            $this->load->view('registration/activation', $this->data);
+        }
     }
     public function checkaction()
     {

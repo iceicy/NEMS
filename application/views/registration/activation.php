@@ -92,6 +92,12 @@
       } elseif ($st_ck == 'activated') {
           ?>
       <p>Thank You Activate Completed <a href="<?php echo site_url('registration/login'); ?>">Login</a></p>
+
+      <?php
+
+      } elseif ($st_ck == 'recover') {
+          ?>
+      <p>Recover Completed! New Password (<?php echo $npass; ?>) <a href="<?php echo site_url('registration/login'); ?>">Login</a></p>
       <?php
 
       } else {

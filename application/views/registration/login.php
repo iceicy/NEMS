@@ -29,7 +29,7 @@
                </a>
             </div>
             <div class="panel-body">
-               <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+              <p class="text-center pv">SIGN IN TO CONTINUE.</p>
               <div class="col-sm-10">
                 <?php echo $err_msg; ?>
               </div>

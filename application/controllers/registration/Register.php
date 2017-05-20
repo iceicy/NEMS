@@ -85,11 +85,16 @@ class Register extends NEMsAuth_Controller
             $u_time = date('Y-m-d H:i:s');
             if ($user) {
                 // tb_user_login
-                /*$user['user_name'] = $student_ID;
-                $user['password'] = md5($user['password']);
-                $user['account_status'] = 'To Be Confirm';
-                $user['create_date'] = $u_time;
-                $this->db->insert('tb_user_login', $user);*/
+                $user['user_name'] = $student_ID;
+                if (isset($user['password']) && $user['password'] != '') {
+                    $user['password'] = md5($user['password']);
+                }
+                $user['update_date'] = $u_time;
+                $this->db->where('user_name', $student_ID);
+                $this->db->update('tb_user_login', $user);
+                //$user['account_status'] = 'To Be Confirm';
+                //$user['create_date'] = $u_time;
+                //$this->db->insert('tb_user_login', $user);
             }
             if ($contact) {
                 //tb_contact
@@ -135,6 +140,7 @@ class Register extends NEMsAuth_Controller
 
         $sql = 'SELECT province_ID FROM tb_province WHERE '.$where;
         //echo $sql;
+        //exit;
         $query = $this->db->query($sql);
         $row = $query->row();
         if (isset($row)) {
