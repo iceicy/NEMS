@@ -1,3 +1,11 @@
+<?php //echo $GroupID;
+  $GroupID = (isset($GroupID)) ? $GroupID : '';
+  $groupshow = 'display:none;';
+  if ($GroupID == 'SADM' || $GroupID == 'ADM') {
+      $groupshow = '';
+  }
+?>
+
 <li class=" ">
     <a href="#menu_module_registration_and_announcement" title="Examination Management" data-toggle="collapse">
         <em class="fa fa-folder-open-o"></em>
@@ -10,18 +18,18 @@
                 <span>Profile</span>
             </a>
         </li>
-        <li class=" ">
-            <a href="<?php echo site_url('registration/news/form'); ?>" title="Sing Up" data-toggle="">
+        <!-- class=" ">
+            <a href="<?php //echo site_url('registration/news/form');?>" title="News Form" data-toggle="">
                 <span>News Form</span>
             </a>
-        </li>
-        <!--li class=" ">
-            <a href="<?php echo site_url('registration/news/list'); ?>" title="Sing Up" data-toggle="">
+        </li-->
+        <li class=" " style="<?php echo $groupshow; ?>">
+            <a href="<?php echo site_url('registration/news/list'); ?>" title="News List" data-toggle="">
                 <span>News List</span>
             </a>
-        </li-->
+        </li>
         <li class=" ">
-            <a href="<?php echo site_url('registration/news/listview'); ?>" title="Sing Up" data-toggle="">
+            <a href="<?php echo site_url('registration/news/listview'); ?>" title="News View" data-toggle="">
                 <span>News View</span>
             </a>
         </li>

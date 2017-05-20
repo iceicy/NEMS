@@ -15,12 +15,38 @@ Class Manager_Logistics extends Logistics_Controllers
 
     function main()
     {
+        $this->load->model($this->config->item('lg_dir') . 'M_Other', 'ot');
+        $this->load->model($this->config->item('lg_dir') . 'M_mapping_exam', 'me');
+
+        $this->data['op_year'] = $this->ot->get_option_year();
+
+        $this->data['op_typeexam'] = $this->ot->get_option_typeexam();
+
+        $this->data['header_name'] = "การกระจายข้อสอบ";
+
+        $this->data['val_year'] = date('Y');
+        $this->data['val_typeexam'] = key($this->data['op_typeexam']);
+
+        if($this->input->post('Year') != "" )
+        {
+
+        }
+        if($this->input->post('TypeExam') != "")
+        {
+
+        }
+
         $this->output($this->config->item('lg_dir') . 'manage_logistics/' . 'v_main');
     }
 
     function lc2ec()
     {
-        $this->load->
+        $this->load->model($this->config->item('lg_dir') . 'M_Other', 'ot');
+
+        $this->data['op_year'] = $this->ot->get_option_year();
+        $this->data['op_location'] = $this->ot->get_option_location();
+
+
         $this->output($this->config->item('lg_dir') . 'manage_logistics/v_lc2ec');
     }
 

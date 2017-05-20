@@ -55,7 +55,6 @@ class Singup extends NEMs_Controller
             $u_time = date('Y-m-d H:i:s');
             if ($user) {
                 // tb_user_login
-                //print_r($user);exit;
                 $user['user_name'] = $student_ID;
                 $user['password'] = md5($user['password']);
                 $user['account_status'] = 'Activated'; //'To Be Confirm';// Fix for test
@@ -92,6 +91,10 @@ class Singup extends NEMs_Controller
                     $filename = $Path.'/'.$student_ID.'.'.$ext;
                     copy($_FILES['student']['tmp_name']['student_pic'], $filename);
                     $student['student_pic'] = ($filename) ? $filename : '';
+                }
+                if (isset($student['DOB']) && $student['DOB'] != '') {
+                    list($d, $m, $y) = explode('/', $student['DOB']);
+                    $student['DOB'] = $y.'-'.$m.'-'.$d;
                 }
                 $student['created_date'] = $u_time;
                 $student['tb_contact_contact_ID'] = $student_ID;

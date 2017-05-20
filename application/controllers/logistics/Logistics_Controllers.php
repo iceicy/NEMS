@@ -13,8 +13,6 @@ class Logistics_Controllers extends NEMs_Controller
     {
         parent::__construct();
         $this->path = "logistics/";
-        $this->form = array();
-        $this->table = array();
         $this->load->library('form_validation');
         $this->config->load('logistic_config');
     }

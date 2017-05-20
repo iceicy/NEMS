@@ -1,7 +1,7 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/testresult/select.js"></script>
 
+<script src="<?php echo base_url();?>assets/js/testresult/select.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.3/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.3/sweetalert2.min.js"></script>
 
 <div class="content-wrapper">
     <div class="content-heading">

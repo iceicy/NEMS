@@ -48,7 +48,11 @@ class Payment extends NEMs_Controller {
 		$this->output('Payment/v_payment',$this->data);
 	}
 	
-	public function insert()
+	function splitDateFormTH($date,$sp="-") {
+		list($dd, $mm, $yy) = preg_split("[/|-]", $date);
+		return $yy.'-'.$mm.'-'.$dd;
+	}
+public function insert()
 	{
 		//author by suphunnee prajongjai 18/04/2017
 		date_default_timezone_set('Asia/Bangkok');
@@ -57,7 +61,7 @@ class Payment extends NEMs_Controller {
 		$pay_bs_id		= $this->input->post('pay_bs_id');
 		$pay_bill		= $this->input->post('pay_bill');
 		echo $this->input->post('pay_date');
-		echo $pay_date		= date("Y/m/d",$this->input->post('pay_date'));  die;
+		echo $pay_date		= $this->splitDateFormTH($this->input->post('pay_date')); //die;
 		$pay_amount		= $this->input->post('pay_amount');
 		$pay_receiver	= $this->input->post('pay_receiver');
 		$pay_createdate	= date("Y-m-d H:i:s");

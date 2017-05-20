@@ -20,7 +20,7 @@ class Register extends NEMsAuth_Controller
         $arruser = array();
         if ($this->session->userdata('user_name')) {
             $student_ID = $this->session->userdata('user_name');
-            $sql = " SELECT T2.student_ID,T2.gender,T2.title,T2.first_name,T2.last_name,T2.DOB,T2.student_pic
+            $sql = " SELECT T1.GroupID,T2.student_ID,T2.gender,T2.title,T2.first_name,T2.last_name,T2.DOB,T2.student_pic
                   ,T4.*,T3.*
                   FROM tb_user_login T1
                   LEFT JOIN tb_student T2 ON T1.user_name = T2.student_ID
@@ -33,6 +33,11 @@ class Register extends NEMsAuth_Controller
           $query = $this->db->query($sql);
             $row = $query->row();
             if (isset($row)) {
+                $DOB = $row->DOB;
+                if ($DOB) {
+                    list($y, $m, $d) = explode('-', $DOB);
+                    $row->DOB = $d.'/'.$m.'/'.$y;
+                }
                 $arruser = json_decode(json_encode($row), true);
             }
         }
@@ -60,10 +65,11 @@ class Register extends NEMsAuth_Controller
         $this->data['optProvince'] = $optProvince;
         $this->data['optDistrict'] = $optDistrict;
         $this->data['optSubdis'] = $optSubdis;
-        //$this->_print($optSubdist);
+        //$this->_print($arruser);
         $this->data['head_name'] = 'Profile';
         $this->data['mode'] = 'edit';
         $this->data['n_controler'] = 'register';
+        //$this->_print($arruser);
         $this->data['mdata'] = $arruser;
         $this->output('registration/register/form', $this->data);
     }
@@ -74,6 +80,8 @@ class Register extends NEMsAuth_Controller
         $student_ID = $email = '';
         $student = $user = $contact = $address = array();
         $student = $this->input->post('student');
+        //$this->_print($student);
+        //exit;
         $contact = $this->input->post('contact');
         $address = $this->input->post('field');
         $user = $this->input->post('user');
@@ -119,6 +127,10 @@ class Register extends NEMsAuth_Controller
                     $filename = $Path.'/'.$student_ID.'.'.$ext;
                     copy($_FILES['student']['tmp_name']['student_pic'], $filename);
                     $student['student_pic'] = ($filename) ? $filename : '';
+                }
+                if (isset($student['DOB']) && $student['DOB'] != '') {
+                    list($d, $m, $y) = explode('/', $student['DOB']);
+                    $student['DOB'] = $y.'-'.$m.'-'.$d;
                 }
                 $student['created_date'] = $u_time;
                 $this->db->where('student_ID', $student_ID);

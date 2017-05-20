@@ -23,29 +23,30 @@
         <div class="form-group">
                        <label class="col-lg-4 control-label">รหัสผู้สมัครสอบ</label>
                        <div class="col-lg-5">
-                          <label class="col-lg-9 control-label">XXXXXXXXXXXXX</label>
+												 <?php
+												 $name = $this->session->userdata('first_name').' '.$this->session->userdata('last_name');
+												 $id = $this->session->userdata('student_ID');
+												 $studentID = $this->session->userdata('student_ID');
+												 $dob = $this->session->userdata('DOB');
+												 ?>
+                        <label class="col-lg-9 control-label"><?php echo $studentID; ?></label>
                        </div>
          		</div>
 				<div class="form-group">
                        <label class="col-lg-4 control-label">ชื่อ-นามสกุล</label>
                        <div class="col-lg-5">
-                          <label class="col-lg-9 control-label">XXXXXX  XXXXXXXXXXXXX</label>
+												 <label class="col-lg-9 control-label"><?php echo $name; ?></label>
                        </div>
          		</div>
          		<div class="form-group">
                        <label class="col-lg-4 control-label">หมายเลขบัตรประชาชน</label>
                        <div class="col-lg-5">
-                          <label class="col-lg-9 control-label">XXXXXXXXXXXXX</label>
+                          <label class="col-lg-9 control-label"><?php echo $id; ?></label>
                        </div>
                        <label class="col-lg-4 control-label">วัน-เดือน-ปี เกิด</label>
                        <div class="col-lg-5">
-                          <label class="col-lg-9 control-label">XX-XX-XXXX</label>
+                          <label class="col-lg-9 control-label"><?php echo $dob; ?></label>
                        </div>
-                       <label class="col-lg-4 control-label">อายุ </label>
-												 <div class="col-lg-5">
-												 	 <label class="col-lg-9 control-label">XX</label>
-												 </div>
-
          		</div>
 
       </div>

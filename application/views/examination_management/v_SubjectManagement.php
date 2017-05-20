@@ -13,30 +13,11 @@
                   </div>
                   <div class="panel-body">
 
-                  <form class="form-horizontal">
-
-                  <fieldset>
-                     <legend>อัพโหลดไฟล์ข้อมูลเข้าระบบ</legend>
-            
-            <div class="form-group">
-                <label class="col-lg-3 control-label">ไฟล์</label>
-                    <div class="col-lg-4">
-                        <input type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle">
-                    </div>
-                    <div class="col-lg-1">
-                        <button type="submit" class="btn btn-sm btn-success pull-right">อัพโหลดไฟล์</button>
-                    </div>      
-            </div>
+                  <form class="form-horizontal">       
       <br>
         </fieldset>
         <fieldset>
-        <legend>ป้อนข้อมูลรายวิชาที่เปิดสอบ</legend>
-        <div class="form-group">
-		        <label class="col-lg-2 control-label">ID</label>
-            <div class="col-lg-1">
-                <label class="col-lg-1 control-label">XXXXXXXXXX</label>
-            </div>
-        </div>
+        <legend>ป้อนข้อมูลรายวิชาที่เปิดสอบ</legend>       
         <br>
         <div class="form-group">
             <label class="col-lg-2 control-label">ประเภทการสอบ</label>
@@ -72,16 +53,23 @@
         <br>
         <div class="form-group">
             <label class="col-lg-2 control-label">วันที่สอบ</label>
-            <div class="col-lg-3">
-              <input type="text" placeholder="วันที่สอบ" class="form-control">
+            <div class="col-lg-4">
+            <div id="" class="calendardate input-group date">
+                    <input type="text" placeholder="วันที่สอบ" name="DateExam" class="form-control">
+                           <span class="input-group-addon">
+                              <span class="fa fa-calendar"></span>
+                           </span>
+            </div>
             </div>
         </div>
         <br>
         <div class="form-group">
             <label class="col-lg-2 control-label">เวลาที่สอบ</label>
             <div class="col-lg-3">
-              <input type="text" placeholder="วันที่สอบ" class="form-control">
+              <input type="text" placeholder="เวลาที่สอบ" class="form-control">
             </div>
+            <label class="col-lg-2 control-label">Example: 08:00-10:00</label>
+
         </div>
         <br>
         <div class="form-group">

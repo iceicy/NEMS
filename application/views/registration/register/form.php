@@ -219,7 +219,7 @@
                       <label class="col-lg-3 control-label">วัน/เดือน/ปีเกิด</label>
                       <div class="col-lg-4">
                         <div id="" class="calendardate input-group date">
-                           <input type="text" placeholder="วัน/เดือน/ปีเกิด" name="student[DOB]" class="form-control">
+                           <input type="text" placeholder="วัน/เดือน/ปีเกิด" name="student[DOB]" class="form-control" value="<?php echo (isset($mdata['DOB'])) ? $mdata['DOB'] : ''; ?>">
                            <span class="input-group-addon">
                               <span class="fa fa-calendar"></span>
                            </span>
@@ -410,7 +410,10 @@
      </div>
   </div>
 <br>
-  <input type="hidden" name="user[GroupID]" class="form-control" value="STD">
+<?php
+  $mGroupID = (isset($mdata['GroupID'])) ? $mdata['GroupID'] : 'STD';
+?>
+  <input type="hidden" name="user[GroupID]" class="form-control" value="<?php echo $mGroupID; ?>">
 </div>
 
                      <div class="form-group">

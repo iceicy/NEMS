@@ -88,12 +88,12 @@ function delete_pay(pay_id) {
                      </div>
                   </div>
                   <br>
-                  <div class="form-group">
+                 <!-- <div class="form-group">
                      <label class="col-sm-3 control-label">จำนวนเงินที่ต้องชำระ<br></label>
                      <div class="col-sm-4">
                         <input class="form-control m-b" readonly type="text" name="must_pay" value="<?php if(isset($rs_edit)){ echo "รอ"; }else{ echo "รอดึง"; }  ?>">
                      </div>
-                  </div>
+                  </div>-->
                   <br>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">จำนวนเงินที่ชำระจริง<br></label>
@@ -144,7 +144,7 @@ function delete_pay(pay_id) {
                       
                         <th rowspan="2"><center>วันที่ชำระเงิน</center></th>
                         <th rowspan="2"><center>สถานะการชำระเงิน</center></th>
-                        <th rowspan="2"><center>จำนวนเงินที่ต้องชำระ</center></th>
+                       
                         <th rowspan="2"><center>จำนวนเงินที่ชำระ</center></th>
                         <th rowspan="2"><center>ผู้รับเงิน</center></th>
                         <th rowspan="2"><center>วันเวลาที่บันทึกข้อมูล</center></th>
@@ -167,8 +167,8 @@ function delete_pay(pay_id) {
                         <td><center><?php echo date("d/m/Y",strtotime($payment->pay_date) ); ?></center></td>
                        
                         <td><center><?php echo $payment->ps_name; ?></center></td>
-                        <td><center><?php echo "รอดึงจากทีมที่สร้างbill"; ?></td>
-						      <td><center><?php echo $payment->pay_amount; ?></td>
+                        
+						      <td><center><?php echo number_format($payment->pay_amount,2); ?></td>
                         <td><center><?php echo $payment->pay_receiver; ?></center></td>
                         <td><center><?php echo date("d/m/Y H:i:s",strtotime($payment->pay_createdate) );?></center></td>
                         <td><center><?php echo $payment->pay_creator; ?></center></td>

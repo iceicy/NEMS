@@ -67,7 +67,7 @@ function change_year(bgy_value){
 								 if($rs_year_exam->num_rows() > 0){
 									 foreach($rs_year_exam->result() as $year){
 								?>
-									<option value="<?php echo $year->Year;?>" ><?php echo $year->Year;?></option>
+									<option value="<?php echo $year->Year;?>" ><?php echo $year->Year+543;?></option>
 								<?php										 
 									 }
 									 

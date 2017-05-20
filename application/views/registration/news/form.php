@@ -1,3 +1,28 @@
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/sweetalert/dist/sweetalert.css">
+<?php
+  if($form == null) {
+    $news_id = null;
+    $access_level = null;
+    $topic = null;
+    $description = null;
+    $content = null;
+    $priority = null;
+    $startDate = null;
+    $endDate = null;
+    $pin = null;
+  } else {
+    $news = $form->row_array();
+    $news_id = $news['news_ID'];
+    $access_level = $news['access_level'];
+    $topic = $news['topic'];
+    $description = $news['Description'];
+    $content = $news['content'];
+    $priority = $news['priority'];
+    $startDate = date("d-m-Y", strtotime($news['active_date']));
+    $endDate = date("d-m-Y", strtotime($news['expired_date']));
+    $pin = $news['pin_flag'];
+  }
+?>
 <section>
    <!-- Page content-->
    <div class="content-wrapper">
@@ -15,60 +40,34 @@
                   </div>
                   <div class="panel-body">
 
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" role="form" data-parsley-validate="" novalidate="" action="<?php echo site_url()."/registration/news/form_edit"?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                        <label class="col-lg-2 control-label"></label>
                        <div class="col-lg-10">
                           <label class="radio-inline c-radio">
-                             <input id="inlineradio10" type="radio" name="i-radio" value="option1" checked>
+                             <input id="inlineradio10" type="radio" name="access_level" value="1" <?php if($access_level == 1 || $access_level == null) echo "checked";?>>
                              <span class="fa fa-check"></span>Public</label>
                           <label class="radio-inline c-radio">
-                             <input id="inlineradio10" type="radio" name="i-radio" value="option1" checked>
+                             <input id="inlineradio10" type="radio" name="access_level" value="2" <?php if($access_level == 2) echo "checked";?>>
                              <span class="fa fa-check"></span>Private</label>
                        </div>
                     </div>
                     <div class="form-group">
                        <label class="col-lg-2 control-label">Topic</label>
                        <div class="col-lg-10">
-                          <input type="text" placeholder="Topic" class="form-control">
+                          <input type="text" placeholder="Topic" class="form-control" name="topic" required value="<?php echo $topic;?>">
                        </div>
                     </div>
                     <div class="form-group">
                        <label class="col-lg-2 control-label">Description</label>
                        <div class="col-lg-10">
-                          <input type="text" placeholder="Description" class="form-control">
+                          <input type="text" placeholder="Description" class="form-control" name="description" required value="<?php echo $description;?>">
                        </div>
                     </div>
                      <div class="form-group">
                         <label class="col-lg-2 control-label">Content</label>
                         <div class="col-lg-10">
                           <div data-role="editor-toolbar" data-target="#editor" class="btn-toolbar btn-editor">
-                                                             <div class="btn-group dropdown">
-                                                                <a data-toggle="dropdown" title="Font" class="btn btn-default">
-                                                                   <em class="fa fa-font"></em><b class="caret"></b>
-                                                                </a>
-                                                                <ul class="dropdown-menu">
-                                                                   <li><a href="" data-edit="fontName Arial" style="font-family:'Arial'">Arial</a>
-                                                                   </li>
-                                                                   <li><a href="" data-edit="fontName Sans" style="font-family:'Sans'">Sans</a>
-                                                                   </li>
-                                                                   <li><a href="" data-edit="fontName Serif" style="font-family:'Serif'">Serif</a>
-                                                                   </li>
-                                                                </ul>
-                                                             </div>
-                                                             <div class="btn-group dropdown">
-                                                                <a data-toggle="dropdown" title="Font Size" class="btn btn-default">
-                                                                   <em class="fa fa-text-height"></em>&nbsp;<b class="caret"></b>
-                                                                </a>
-                                                                <ul class="dropdown-menu">
-                                                                   <li><a href="" data-edit="fontSize 5" style="font-size:24px">Huge</a>
-                                                                   </li>
-                                                                   <li><a href="" data-edit="fontSize 3" style="font-size:18px">Normal</a>
-                                                                   </li>
-                                                                   <li><a href="" data-edit="fontSize 1" style="font-size:14px">Small</a>
-                                                                   </li>
-                                                                </ul>
-                                                             </div>
                                                              <div class="btn-group">
                                                                 <a data-edit="bold" data-toggle="tooltip" title="Bold (Ctrl/Cmd+B)" class="btn btn-default">
                                                                    <em class="fa fa-bold"></em>
@@ -142,22 +141,37 @@
                                                                 </a>
                                                              </div>
                                                           </div>
-                          <div style="overflow:scroll; height:250px;max-height:250px" class="form-control wysiwyg mt-lg">Type something ...</div>
+                          <div style="overflow:scroll; height:250px;max-height:250px" class="form-control wysiwyg mt-lg" id="editor" data-target="content">
+                             <?php if($content != null) {
+                              echo $content;
+                            } else { ?>
+                              Type something ...
+                            <?php } ?>
+                           </div>
+                          <textarea type="text" class="hidden" name="content" id="content"></textarea>
                         </div>
                      </div>
+                     <script>
+                      $(document).ready(function(){
+                       $("#copyeditor").on("click", function() {
+                          var targetName = $("#editor").attr('data-target');
+                          $('#'+targetName).val($('#editor').html());
+                        });
+                       });
+                     </script>
                      <div class="form-group">
                         <label class="col-lg-2 control-label">Upload Picture</label>
                         <div class="col-lg-10">
-                          <input type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle">
+                          <input type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle" name="picture">
                         </div>
                      </div>
                     <div class="form-group">
                        <label class="col-lg-2 control-label">Priority</label>
                        <div class="col-lg-3">
-                         <select name="" class="form-control m-b">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
+                         <select class="form-control m-b" name="priority">
+                            <option value="1" <?php if($priority == 1) echo "selected='selected'";?>>1</option>
+                            <option value="2" <?php if($priority == 2) echo "selected='selected'";?>>2</option>
+                            <option value="3" <?php if($priority == 3) echo "selected='selected'";?>>3</option>
                          </select>
                        </div>
                     </div>
@@ -165,7 +179,7 @@
                       <label class="col-lg-2 control-label">Start date</label>
                       <div class="col-lg-4">
                         <div id="" class="calendardate input-group date">
-                           <input type="text" placeholder="Start date" class="form-control">
+                           <input type="text" placeholder="Start date" class="form-control" name="start_date" required value="<?php echo (isset($startDate) ? $startDate : date("d/m/Y"));?>">
                            <span class="input-group-addon">
                               <span class="fa fa-calendar"></span>
                            </span>
@@ -174,7 +188,7 @@
                       <label class="col-lg-2 control-label">End date</label>
                       <div class="col-lg-4">
                         <div id="" class="calendardate input-group date">
-                           <input type="text" placeholder="End date" class="form-control">
+                           <input type="text" placeholder="End date" class="form-control" name="end_date" required value="<?php echo $endDate;?>">
                            <span class="input-group-addon">
                               <span class="fa fa-calendar"></span>
                            </span>
@@ -186,17 +200,17 @@
                         <div class="col-lg-offset-2 col-lg-10">
                            <div class="checkbox c-checkbox">
                               <label>
-                                 <input type="checkbox" checked="">
+                                 <input type="checkbox" name="pin" value="1" <?php if($pin == 1) echo "checked";?>>
                                  <span class="fa fa-check"></span>Pin</label>
                            </div>
                         </div>
                      </div>
+                     <input type="hidden" name="news_id" value="<?php echo $news_id;?>">
                      <div class="form-group">
                         <div class="col-lg-offset-10 col-lg-2">
-                           <button type="submit" class="btn btn-primary">Submit</button>
+                           <button type="submit" class="btn btn-primary" id="copyeditor">Submit</button>
                         </div>
                      </div>
-
                   </form>
                   </div>
                </div>
@@ -207,3 +221,11 @@
       <!-- END row-->
    </div>
 </section>
+
+ <!-- PARSLEY-->
+   <script src="<?php echo base_url(); ?>assets/vendor/parsleyjs/dist/parsley.min.js"></script>
+   <script src="<?php echo base_url(); ?>assets/vendor/sweetalert/dist/sweetalert.min.js"></script>
+<?php
+if(isset($alert)){
+  echo $alert;
+} ?>

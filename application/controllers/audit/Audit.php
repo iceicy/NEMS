@@ -11,20 +11,63 @@ require_once(dirname(__FILE__)."/../NEMs_Controller.php");
 class Audit extends NEMs_Controller {
 	public function __construct(){
         parent::__construct();
+        $this->pa_db = $this->load->database('default', TRUE); 
 	}
 	
 	/* main function*/
 	public function index()
 	{
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		$this->data["rs_year_exam"] = $this->payment->get_year_exam();
 		
 		$this->output('Audit/report1');
 	}
 	
+	/***************************************************/
+	
 	public function report1()
 	{
+		$this->load->model("payment/M_pa_payment","payment");
 		
-		$this->output('Audit/report1');
+		
+		$this->data["rs_year_exam"] = $this->payment->get_year_exam();
+		
+		$this->output('Audit/report1',$this->data);
+		
 	}
+	
+	public function table_report1(){
+		$this->load->model("payment/M_audit","audit");
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		$im_edu_bgy = $this->input->post("im_edu_bgy");//ปีการศึกษา
+		
+		$rs_type_exam = $this->payment->get_type_exam_by_year($im_edu_bgy);
+		
+		
+		if($rs_type_exam->num_rows()>0){
+			$seq = 1;
+			foreach($rs_type_exam->result() as $exam){
+				echo "<tr>";									
+					echo "<td>".$seq."</td>";	
+					echo "<td>".$exam->TypeName." (".$exam->Term."/".($exam->Year+543).")</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";
+				echo "</tr>";
+				$seq++;
+			}
+		}
+		
+		
+		
+	}//end fn table_report1
+	/***************************************************/
+	
+	
 	
 	public function report2()
 	{
@@ -40,27 +83,15 @@ class Audit extends NEMs_Controller {
 	
 	public function report4()
 	{
-		// $subject_id = $this->input->post('subject_id');
-		// $sql ="SELECT * FROM 'tresult_iscore' WHERE subject_id = '$subject_id'";
-		// $query = $this->testresult_db->query($sql);
-		// $this->data['testresult_score'] = $query;
-		
-		
-		// $sql ="SELECT * FROM tb_payment LEFT JOIN tb_payment_status ON   pay_ps_id = ps_id ";
-		// $query = $this->pa_db->query($sql);
-		// $this->data['rs_payment'] = $query;
-		
-		// if($pay_id){
-		// 	$sql ="SELECT * FROM tb_payment WHERE pay_id = '$pay_id' ";
-		// 	$query = $this->pa_db->query($sql);
-		// 	$this->data['rs_edit'] = $query;
-		// }
 		$this->output('Audit/v_report4');
 	}
 	
 	
 	public function report5()
 	{
+		$this->load->model("audit/M_tresult","tresult");
+		
+		$this->data["log_edit"] = $this->tresult->get_log();
 		
 		$this->output('Audit/v_report5');
 	}

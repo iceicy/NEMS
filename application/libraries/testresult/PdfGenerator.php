@@ -25,7 +25,7 @@ Class PdfGenerator {
         $this->mpdf->WriteHTML($html);
         $title = strcode2utf($this->header_title);
         $this->mpdf->SetTitle($title);
-        $this->mpdf->Output('export.pdf', 'D');
+        $this->mpdf->Output($title.".pdf", 'D');
         exit();
     }
 

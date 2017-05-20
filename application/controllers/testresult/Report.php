@@ -111,6 +111,45 @@ Class Report extends NEMs_Controller{
         $data ['list_school_available'] = $this->db->query($sql)->result_array();
         $this->output('testresult/v_report_school' , $data);
     }
+
+    public function schoolviewpdf($school_id , $filename){
+        $sql =  "SELECT r.score_point, s.student_ID,s.first_name,s.last_name,sb.subject_name,ex.type_name 
+                FROM tb_scores_tresult r , tb_schools_tresult sc , tb_student_tresult s , tb_subjects_tresult sb , tb_exam_type_tresult ex 
+                WHERE r.school_id = sc.school_id 
+                AND s.student_ID = r.student_id 
+                AND ex.type_id = r.type_id 
+                AND sb.subject_id = r.subject_id 
+                AND r.school_id = '".$school_id."' ";
+
+        $sql2 = "SELECT * FROM `tb_schools_tresult` 
+                WHERE school_id = '".$school_id."'";
+        $data['school'] = $this->db->query($sql2)->row(); 
+        $data['all_student'] = $this->db->query($sql)->result_array(); 
+        // print_r($data['all_student']);
+        $data['fileName'] = $filename;
+        $this->load->library('testresult/PdfGenerator');
+        $pdf = new PdfGenerator();
+        $pdf->header_title = 'report_school_'.$school_id.'2017';
+        $html = $this->load->view('testresult/v_report_school_pdf.php', $data, TRUE);
+        $pdf->GenPdfWithHtml($html);
+        
+    }
+
+     //genchart school
+    public function genChartSchool(){
+        $sql = "SELECT r.score_point, s.student_ID,s.first_name,s.last_name,sb.subject_name,ex.type_name 
+                FROM tb_scores_tresult r , tb_schools_tresult sc , tb_student_tresult s , tb_subjects_tresult sb , tb_exam_type_tresult ex 
+                WHERE r.school_id = sc.school_id 
+                AND s.student_ID = r.student_id 
+                AND ex.type_id = r.type_id 
+                AND sb.subject_id = r.subject_id 
+                AND r.school_id = '".$this->input->post('school_id')."' ";
+        $data = $this->db->query($sql)->result_array();   
+        echo json_encode($data , JSON_UNESCAPED_UNICODE ); 
+    }
+
+
+
     
     // ส่วนคะแนนที่มีปัญหา
     public function pointproblem(){
@@ -119,7 +158,6 @@ Class Report extends NEMs_Controller{
     
     // คะแนนรายเดี่ยว 
     public function individualview(){
-
         $sql = 'SELECT tb_scores_tresult.student_id,  tb_student_tresult.first_name , tb_student_tresult.last_name 
                 , tb_exam_type_tresult.type_name , tb_scores_tresult.score_test_round , tb_scores_tresult.type_id ,
                  tb_subjects_tresult.subject_name , tb_scores_tresult.subject_id
@@ -158,6 +196,7 @@ Class Report extends NEMs_Controller{
         $html = $this->load->view('testresult/ReportTemplate/report1', $data, true); 
         $this->load->library('testresult/PdfGenerator');
         $pdf = new PdfGenerator();
+        $pdf->header_title = 'report_individual_'.$student_id.'2017';
         $pdf->GenPdfWithHtml($html);
     }
 
@@ -212,6 +251,8 @@ Class Report extends NEMs_Controller{
         $fileName = __DIR__.'/img/'.$fileName;
         file_put_contents($fileName, base64_decode(explode(',',$data)[1]));
     }
+
+
 
 
 

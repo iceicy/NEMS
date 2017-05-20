@@ -15,6 +15,64 @@ class Import extends NEMs_Controller {
 	}
 	
 	
+	
+	
+	
+	/***************************************************/
+	
+	public function report1()
+	{
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		
+		$this->data["rs_year_exam"] = $this->payment->get_year_exam();
+		
+		$this->output('Audit/report1',$this->data);
+		
+	}
+	
+	public function table_report1(){
+		$this->load->model("payment/M_audit","audit");
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		$im_edu_bgy = $this->input->post("im_edu_bgy");//ปีการศึกษา
+		
+		$rs_type_exam = $this->payment->get_type_exam_by_year($im_edu_bgy);
+		
+		
+		if($rs_type_exam->num_rows()>0){
+			$seq = 1;
+			foreach($rs_type_exam->result() as $exam){
+				echo "<tr>";									
+					echo "<td>".$seq."</td>";	
+					echo "<td>".$exam->TypeName." (".$exam->Term."/".($exam->Year+543).")</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";	
+					echo "<td>N/A</td>";
+				echo "</tr>";
+				$seq++;
+			}
+		}
+		
+		
+		
+	}//end fn table_report1
+	/***************************************************/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	function remove_comma($number){
 		return str_replace(',', '',$number);
 	}
@@ -55,7 +113,7 @@ class Import extends NEMs_Controller {
 				if($type_ex->TypeID == $default_selected){
 					$selected = "selected";
 				}
-				echo "<option ".$selected." value=".$type_ex->TypeID.">".$type_ex->TypeName."(".$type_ex->Term.")</option>";
+				echo "<option ".$selected." value=".$type_ex->TypeID.">".$type_ex->TypeName."(".$type_ex->Term."/".($type_ex->Year+543).")</option>";
 			}
 		}else{
 			

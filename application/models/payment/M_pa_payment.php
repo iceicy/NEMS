@@ -53,7 +53,7 @@ class M_pa_payment extends Da_pa_payment {
 	Query ประเภทการสอบ/ชนิดการสอบ ค้นหาจาก ปีการศึกษา
 	*/
 	function get_type_exam_by_year($edu_year){
-		$sql = "SELECT TypeID,TypeName ,Term
+		$sql = "SELECT TypeID,TypeName ,Term,Year
 				FROM `tb_TypeExam`
 				WHERE Year = '".$edu_year."' ";
 		$query = $this->pa_db->query($sql);

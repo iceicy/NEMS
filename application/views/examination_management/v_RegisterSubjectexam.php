@@ -26,8 +26,7 @@
                       <div class="form-group">
                         <label class="col-lg-4 control-label">ชื่อ-นามสกุล</label>
                         <div class="col-lg-5">
-                          <?php 
-                          $this->config->load('config');
+                          <?php
                           $name = $this->session->userdata('first_name').' '.$this->session->userdata('last_name');
                           $id = $this->session->userdata('student_ID');
                           $dob = $this->session->userdata('DOB');
@@ -36,7 +35,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">เลขบัตรประชาชน</label>
+                        <label class="col-lg-4 control-label">หมายเลขบัตรประชาชน</label>
                         <div class="col-lg-5">
                           <label class="col-lg-9 control-label"><?php echo $id; ?></label>
                         </div>
@@ -49,8 +48,7 @@
                       </div>
                     </fieldset>
                     <fieldset>
-                    <form class="form-horizontal" method="post" 
-                    action="<?php echo site_url($this->config->item('exam_dir') . 'Register/saveRegistration') ?>">
+                    <form class="form-horizontal" method="post" action="<?php echo site_url($this->config->item('exam_dir') . 'Register/saveRegistration') ?>">
                       <div class="form-group">
                         <label class="col-lg-3 control-label">มีความประสงค์ที่จะสมัครสอบ</label>
                         <div class="col-lg-3">
@@ -62,7 +60,6 @@
                           <button type="submit" class="btn btn-primary">สมัครสอบ</button>
                         </div>
                       </div>
-                    </form>
                     </fieldset>
                     <fieldset>
                       <legend>เลือกวิชาที่ต้องการสอบ</legend>
@@ -82,7 +79,6 @@
                               <td><?php echo $item->SubID; ?></td>
                               <td><?php echo $item->SubName; ?></td>
                               <td><?php echo $item->Price; ?></td>
-                              
                           </tr>
                         <?php } ?>
                         </tbody>

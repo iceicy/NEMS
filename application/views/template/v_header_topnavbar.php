@@ -6,7 +6,10 @@
         <div class="navbar-header">
             <a href="<?php echo base_url();?>" class="navbar-brand">
                 <div class="brand-logo">
-                    <img src="<?php echo base_url();?>assets/img/logo.png" alt="App Logo" class="<?php echo base_url();?>assets/img/-responsive">
+   
+                    <img src="https://image.ibb.co/niex5v/logo.png" alt="App Logo"">
+
+                       <!-- <img src="<?php echo base_url();?>assets/img/logo.png" alt="App Logo" class="<?php echo base_url();?>assets/img/-responsive"> -->
                 </div>
                 <div class="brand-logo-collapsed">
                     <img src="<?php echo base_url();?>assets/img/logo-single.png" alt="App Logo" class="<?php echo base_url();?>assets/img/-responsive">

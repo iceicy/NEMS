@@ -71,16 +71,14 @@
     <script src="<?php echo base_url(); ?>assets/js/register/regis.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
-    
+
     <!-- include javascript of testresult -->
     <!-- DATATABLES-->
     <script src="<?php echo base_url(); ?>assets/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/testresult/app.js""></script>  
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/testresult/app.js""></script>
+
 
 </head>
 
@@ -101,7 +99,13 @@
                                 <!-- User picture-->
                                 <div class="user-block-picture">
                                     <div class="user-block-status">
-                                        <img src="<?php echo base_url(); ?>assets/img/user/02.jpg" alt="Avatar"
+                                        <?php //echo base_url();
+                                            $pathpic = '';
+                                            $student_pic = $this->session->userdata('student_pic');
+                                            $pic = (isset($student_pic) && $student_pic != '') ? $student_pic : 'assets/img/user/profil-pic_dummy.png';
+                                            $pathpic = base_url().$pic;
+                                          ?>
+                                        <img src="<?php echo $pathpic; ?>" alt="Avatar"
                                              width="60" height="60"
                                              class="<?php echo base_url(); ?>assets/img/-thumbnail img-circle">
                                         <div class="circle circle-success circle-lg"></div>
@@ -110,6 +114,9 @@
                                 <!-- Name and Job-->
                                 <div class="user-block-info">
                                     <?php
+                                      //echo '<pre>';
+                                      //print_r($this->session->userdata());
+                                      //echo '</pre>';
                                       $fname = '';
                                       $fname .= $this->session->userdata('title').' ';
                                       $fname .= $this->session->userdata('first_name').' ';
@@ -129,11 +136,15 @@
                         <span data-localize="sidebar.heading.HEADER">NEMs</span>
                     </li>
                     <?php
-                    $this->load->view('template/v_menu_module_registration_and_announcement');
-                    $this->load->view('template/v_menu_module_examination_management');
-                    $this->load->view('template/v_menu_module_test_result_management');
-                    $this->load->view('template/v_menu_module_logistics');
-                    $this->load->view('template/v_menu_module_payment_and_audit');
+                    $GroupID = $this->session->userdata('GroupID');
+                    $GroupID = (isset($GroupID)) ? $GroupID : '';
+                    $this->load->view('template/v_menu_module_registration_and_announcement', $this->session->userdata());
+                    $this->load->view('template/v_menu_module_examination_management',$this->session->userdata());
+                    if ($GroupID == 'SADM' || $GroupID == 'ADM') {
+                        $this->load->view('template/v_menu_module_test_result_management');
+                        $this->load->view('template/v_menu_module_logistics');
+                        $this->load->view('template/v_menu_module_payment_and_audit');
+                    }
                     ?>
                 </ul>
                 <!-- END sidebar nav-->
