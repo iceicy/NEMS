@@ -29,21 +29,14 @@
                </a>
             </div>
             <div class="panel-body">
-              <p class="text-center pv">SIGN IN TO CONTINUE.</p>
-              <div class="col-sm-10">
-                <?php echo $err_msg; ?>
-              </div>
-               <form role="form" data-parsley-validate="" novalidate="" class="mb-lg" action="<?php echo site_url().'/registration/login/checkaction'?>" enctype="multipart/form-data" method="post"><!--//echo base_url();-->
-                  <!--div class="form-group has-feedback">
+               <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+               <form role="form" data-parsley-validate="" novalidate="" class="mb-lg" action="<?php echo base_url(); ?>">
+                  <div class="form-group has-feedback">
                      <input id="exampleInputEmail1" type="email" placeholder="Enter email" autocomplete="off" required class="form-control" value="mail@mail.com">
                      <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                  </div-->
-                  <div class="form-group has-feedback">
-                     <input type="text" placeholder="Enter ID" autocomplete="off" required maxlength="13" data-parsley-length="[13, 13]" class="form-control" value="" name="user_name">
-                     <span class="fa fa-key form-control-feedback text-muted"></span>
                   </div>
                   <div class="form-group has-feedback">
-                     <input id="exampleInputPassword1" type="password" placeholder="Password" required maxlength="8" class="form-control" value="" name="password">
+                     <input id="exampleInputPassword1" type="password" placeholder="Password" required class="form-control" value="xxxxx">
                      <span class="fa fa-lock form-control-feedback text-muted"></span>
                   </div>
                   <div class="clearfix">
@@ -57,7 +50,7 @@
                   </div>
                   <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
                </form>
-               <p class="pt-lg text-center">Need to Signup?</p><a href="<?php echo site_url('registration/singup/register'); ?>" class="btn btn-block btn-default">Register Now</a>
+               <p class="pt-lg text-center">Need to Signup?</p><a href="<?php echo site_url('registration/register/form'); ?>" class="btn btn-block btn-default">Register Now</a>
             </div>
          </div>
          <!-- END panel-->

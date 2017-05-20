@@ -11,9 +11,14 @@ Class subject extends NEMs_Controller{
         parent::__construct();
     }
 
-    public function SubjectManagement(){
-        $this->output('examination_management/v_SubjectManagement');
+    public function Addsubject(){
+        $this->output('examination_management/v_addSubject');
     }
-   
+    public function Editsubject(){
+        $this->output('examination_management/v_editSubject');
+    }
+    public function Deletesubject(){
+        $this->output('examination_management/v_delSubject');
+    }
 
 }

@@ -9,12 +9,12 @@
 */
 
 ?>
-<script type="text/javascript"  src="<?php echo base_url();?>js/payment/validate.js"></script>
+<script src="<?php echo base_url();?>js/payment/validate.js"></script>
 
 <script type="text/javascript">
 
 /* check_form 
- * Checking  form data
+ * Checking validate form data
  * @input: form_id
  * @output: Insert data to DB
  * @author: Jiranun
@@ -31,20 +31,6 @@ function check_form(form_id){
 		console.log("false");
 	}
 }//end fn check_form
-
-//เปลี่ยน ปีการศึกษา ---> ไปดึง ประเภทการสอบ ในปีนั้นๆ
-function change_year(bgy_value){
-	console.log("selected bgy : " + bgy_value);
-	$.ajax({
-		type: "POST",
-		url: "<?php echo site_url()."/payment/Import/type_exam_option";?>",
-		data: {im_edu_bgy:bgy_value},
-		success : function(data){
-			$("#im_exam").html(data);
-		}//end success
-	});//end ajax
-}//end fn change_year
-
 </script>
 
 
@@ -55,24 +41,16 @@ function change_year(bgy_value){
       <div class="panel panel-default">
          <div class="panel-heading"><h4>นำเข้าไฟล์ข้อมูลการชำระเงิน</h4></div>
 			<div class="panel-body">
-				<form id="frm_import" action="<?php echo site_url()."/payment/Import/preview_file"?>"  enctype="multipart/form-data" class="form-horizontal" method="post" > 
+				<form id="frm_import" action="<?php echo site_url()."/payment/Import/preview_file"?>" enctype="multipart/form-data" class="form-horizontal" method="post" > 
 				  <fieldset>
 					   <div class="form-group">
 						  <label class="col-sm-2 control-label">ปีการศึกษา</label>
-						  <div class="col-sm-4"  id="div_im_edu_bgy" >
-							 <select class="form-control" id="im_edu_bgy" name="im_edu_bgy" onchange="change_year(this.value);"  >
-								 <option value="">--- เลือก ---</option>
-								 <?php 
-								
-								 if($rs_year_exam->num_rows() > 0){
-									 foreach($rs_year_exam->result() as $year){
-								?>
-									<option value="<?php echo $year->Year;?>" ><?php echo $year->Year;?></option>
-								<?php										 
-									 }
-									 
-								 }
-								 ?>
+						  <div class="col-sm-4" >
+							 <select class="form-control" id="im_edu_bgy" name="im_edu_bgy" >
+								 <option value="2560" >2560</option>
+								 <option value="2559" >2559</option>
+								 <option value="2558" >2558</option>
+								 <option value="2557" >2557</option>
 							 </select>
 						  </div>
 					   </div>
@@ -80,8 +58,10 @@ function change_year(bgy_value){
 				<fieldset>
 					   <div class="form-group">
 						  <label class="col-sm-2 control-label">ประเภทการสอบ</label>
-						  <div class="col-sm-4" id="div_im_exam" >
+						  <div class="col-sm-4">
 							 <select class="form-control" id="im_exam" name="im_exam" >
+								 <option value="o-net" >o-net</option>
+								 <option value="GAT" >GAT</option>
 							 </select>
 						  </div>
 					   </div>
@@ -89,27 +69,22 @@ function change_year(bgy_value){
 				<fieldset>
 					   <div class="form-group">
 						  <label class="col-sm-2 control-label">นำเข้าไฟล์</label>
-						  <div class="col-sm-4" id="div_im_file">
-							 <input id="im_file" type="file" accept=".xls" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle" name="uploadfile"  />
+						  <div class="col-sm-4">
+							 <input type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle" name="uploadfile" />
 							<input type="hidden" name="upload_data" value="payment" />
 						  </div>
 					   </div>
 				 </fieldset>
-				    
-				</form>
-			</div> 
-			
-			<div class="panel-footer">
-				<div class="row">
+				 <fieldset>
 					  <div class="form-group">
 						 <div class="col-lg-offset-2 col-lg-10">
-							<button type="submit" class="btn btn-primary" onclick="check_form('frm_import')">นำเข้าไฟล์</button>
+							<button type="submit" class="btn btn-primary">นำเข้าไฟล์</button>
 							<button type="reset" class="btn btn-default">ยกเลิก</button>
 						 </div>
 					  </div>
-				</div> 
-			</div> 
-			
+				 </fieldset>    
+				</form>
+			</div>  
 		</div>
 	</div>				
 </section>

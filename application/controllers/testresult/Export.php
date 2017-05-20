@@ -11,7 +11,7 @@ Class Export extends NEMs_Controller{
     }
 
     public function index(){
-         $this->output('testresult/v_export');
+        // $this->output('logistics/v_generator_exam');
     }
 
     public function info(){

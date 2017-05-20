@@ -30,19 +30,11 @@
             </div>
             <div class="panel-body">
                <p class="text-center pv">PASSWORD RESET</p>
-               <form role="form" action="<?php echo site_url().'/registration/login/checkrecover'?>" enctype="multipart/form-data" method="post">
+               <form role="form">
                   <p class="text-center">Fill with your mail to receive instructions on how to reset your password.</p>
-                  <div>
-                    <?php echo $err_msg; ?>
-                  </div>
-                  <div class="form-group has-feedback">
-                     <label for="resetInputEmail1" class="text-muted">ID</label>
-                     <input type="text" placeholder="Enter ID" autocomplete="off" required maxlength="13" data-parsley-length="[13, 13]" class="form-control" value="" name="user_name">
-                     <span class="fa fa-key form-control-feedback text-muted"></span>
-                  </div>
                   <div class="form-group has-feedback">
                      <label for="resetInputEmail1" class="text-muted">Email address</label>
-                     <input id="resetInputEmail1" type="email" placeholder="Enter email" autocomplete="off" class="form-control" value="" name="email">
+                     <input id="resetInputEmail1" type="email" placeholder="Enter email" autocomplete="off" class="form-control">
                      <span class="fa fa-envelope form-control-feedback text-muted"></span>
                   </div>
                   <button type="submit" class="btn btn-danger btn-block">Reset</button>

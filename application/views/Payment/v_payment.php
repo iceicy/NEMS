@@ -44,7 +44,7 @@ function delete_pay(pay_id) {
                <fieldset>
                   <legend>จัดการรายละเอียดการชำระเงิน</legend>
                  
-                        <input class="form-control m-b" type="hidden" name="pay_id" value="<?php if(isset($rs_edit)){ echo $rs_edit->row()->pay_id; }else{ echo "0";  } ?>"> 
+                        <input class="form-control m-b" type="hidden" name="pay_id" value="<?php if(isset($rs_edit)){ echo $rs_edit->row()->pay_id; } ?> "> 
 						
                   <div class="form-group">
                      <label class="col-sm-3 control-label">เลขที่อ้างอิงการชำระเงิน<br></label>
@@ -74,12 +74,12 @@ function delete_pay(pay_id) {
 								foreach($rs_option_status->result() as $option){
 									if(isset($rs_edit)){ 
 										
-										if($rs_edit->row()->pay_ps_id == $option->ps_id){
+										if($rs_edit->row()->pay_bs_id == $option->bs_id){
 											$seleted="selected";
 										}  
 									} 
 						?>
-                           <option value="<?php echo $option->ps_id;?>" <?php echo $seleted;?> ><?php echo $option->ps_name;?> </option>
+                           <option value="<?php echo $option->bs_id;?>" <?php echo $seleted;?> ><?php echo $option->bs_name;?> </option>
                           
 						<?php 	}
 							}
@@ -91,7 +91,7 @@ function delete_pay(pay_id) {
                   <div class="form-group">
                      <label class="col-sm-3 control-label">จำนวนเงินที่ต้องชำระ<br></label>
                      <div class="col-sm-4">
-                        <input class="form-control m-b" readonly type="text" name="must_pay" value="<?php if(isset($rs_edit)){ echo "รอ"; }else{ echo "รอดึง"; }  ?>">
+                        <input class="form-control m-b" readonly type="text" name="must_pay" value="<?php if(isset($rs_edit)){ echo "รอ"; } ?>">
                      </div>
                   </div>
                   <br>
@@ -166,9 +166,9 @@ function delete_pay(pay_id) {
                         <td><center><?php echo $payment->pay_bill; ?></center></td>
                         <td><center><?php echo date("d/m/Y",strtotime($payment->pay_date) ); ?></center></td>
                        
-                        <td><center><?php echo $payment->ps_name; ?></center></td>
+                        <td><center><?php echo $payment->bs_name; ?></center></td>
                         <td><center><?php echo "รอดึงจากทีมที่สร้างbill"; ?></td>
-						      <td><center><?php echo $payment->pay_amount; ?></td>
+						 <td><center><?php echo $payment->pay_amount; ?></td>
                         <td><center><?php echo $payment->pay_receiver; ?></center></td>
                         <td><center><?php echo date("d/m/Y H:i:s",strtotime($payment->pay_createdate) );?></center></td>
                         <td><center><?php echo $payment->pay_creator; ?></center></td>

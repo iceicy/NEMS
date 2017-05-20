@@ -1,8 +1,8 @@
 <?php
 
-include_once("Payment_model.php");
+include_once("My_model.php");
 
-class Da_pa_payment extends Payment_model {		
+class Da_pa_payment extends My_model {		
 	
 	// PK is ottd_ott_id, ottd_date
 	

@@ -6,8 +6,8 @@
     <ul id="menu_module_registration_and_announcement" class="nav sidebar-subnav collapse">
         <li class="sidebar-subnav-header">menu_module_registration_and_announcement</li>
         <li class=" ">
-            <a href="<?php echo site_url('registration/register/form'); ?>" title="Profile" data-toggle="">
-                <span>Profile</span>
+            <a href="<?php echo site_url('registration/register/form'); ?>" title="Sing Up" data-toggle="">
+                <span>Sing Up</span>
             </a>
         </li>
         <li class=" ">

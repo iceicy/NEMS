@@ -16,9 +16,14 @@ Class location extends NEMs_Controller{
         parent::__construct();
     }
 
-    public function LocationManagement(){
-        $this->output('examination_management/v_LocationManagement');
+    public function AddLocation(){
+        $this->output('examination_management/v_addLocation');
     }
-    
+    public function EditLocation(){
+        $this->output('examination_management/v_editLocation');
+    }
+    public function DeleteLocation(){
+        $this->output('examination_management/v_DelLocation');
+    }
 
 }

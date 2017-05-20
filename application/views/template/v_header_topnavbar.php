@@ -29,6 +29,7 @@
                     </a>
                 </li>
                 <!-- START User avatar toggle-->
+<<<<<<< HEAD
                 <?php
                     //echo $this->session->userdata('user_name');
                     //echo $this->session->userdata('user_name');
@@ -44,6 +45,9 @@
                     }
                 ?>
                 <li style="<?php echo $ckstyle; ?>">
+=======
+                <li>
+>>>>>>> parent of 4aec86c... Jan commit
                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
                     <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
                         <em class="icon-user"></em>
@@ -57,7 +61,7 @@
                     </a>
                 </li>-->
                 <li>
-                    <a href="<?php echo $_urllog; ?>" title="<?php echo $_title; ?>">
+                    <a href="<?php echo site_url('registration/login'); ?>" title="Logout">
                         <em class="icon-lock"></em>
                     </a>
                 </li>

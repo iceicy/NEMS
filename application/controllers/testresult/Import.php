@@ -10,7 +10,7 @@ Class Import extends NEMs_Controller{
         parent::__construct();
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $this->temp_import_db = $this->load->database('default', TRUE); // the TRUE paramater tells CI that you'd like to return the database object.
+        $this->temp_import_db = $this->load->database('temp_testreult_import', TRUE); // the TRUE paramater tells CI that you'd like to return the database object.
         $this->dbforgetwo = $this->load->dbforge($this->temp_import_db, TRUE);
         
         $newdata = array(
@@ -20,8 +20,7 @@ Class Import extends NEMs_Controller{
     }
 
     public function index(){
-        
-        $this->output('testresult/v_import');
+        $this->output('testresult/import');
     }
 
     function file_selected_test(){
@@ -57,9 +56,11 @@ Class Import extends NEMs_Controller{
 
         $this->form_validation->set_rules('tresult_import_file', 'อัพโหลดไฟล์', 'callback_file_selected_test');
 
+
+
         if ($this->form_validation->run() == FALSE)
         {
-             $this->output('testresult/v_import');
+             $this->output('testresult/import');
             
         }else{
 
@@ -76,7 +77,7 @@ Class Import extends NEMs_Controller{
                 "table_name" => $mockTable['table_name'] ,
                 "table_column" => $mockTable['table_column'] ,
             ];
-            $this->output('testresult/v_importpreview' , $data);
+            $this->output('testresult/importpreview' , $data);
 
             
         } // end else form_validation as TRUE
@@ -106,18 +107,18 @@ Class Import extends NEMs_Controller{
 
     }
 
-    private function readExcel($pathFile){
+    public function readExcel($pathFile){
         // config phpexcel Reder
         $inputFileType = PHPExcel_IOFactory::identify($pathFile);
         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
         $sheetData = $objReader->load($pathFile)->getActiveSheet()->toArray(true,true,true,true);  
         // column by form 
-        $table_column  = [  $sheetData[1]["A"] ,  $sheetData[1]["B"] ,  $sheetData[1]["C"] ,  $sheetData[1]["D"] ,  $sheetData[1]["E"]  ];
+        $table_column  = [  $sheetData[1]["A"] ,  $sheetData[1]["B"] ,  $sheetData[1]["C"] ,  $sheetData[1]["D"] ,  $sheetData[1]["E"] ,  $sheetData[1]["F"]  ];
 
         $fields = array(
                 $sheetData[1]["A"]  => array(
-                    'type' => 'VARCHAR',
-                    'constraint' => 20,
+                    'type' => 'INT',
+                    'constraint' => 13,
                 ),
                 $sheetData[1]["B"]  => array(
                     'type' =>'VARCHAR',
@@ -134,11 +135,11 @@ Class Import extends NEMs_Controller{
                 $sheetData[1]["E"]  => array(
                     'type' =>'VARCHAR',
                     'constraint' => '255'
+                ),
+                $sheetData[1]["F"]  => array(
+                    'type' =>'VARCHAR',
+                    'constraint' => '255'
                 )
-                // $sheetData[1]["F"]  => array(
-                //     'type' =>'VARCHAR',
-                //     'constraint' => '255'
-                // )
             );
             $time_current =  date("Y-m-d_H-i-s");
             $this->dbforgetwo->add_field($fields);
@@ -148,7 +149,7 @@ Class Import extends NEMs_Controller{
 
             foreach ($sheetData as $key => $row) {
                 if($key != 1){
-                $row;
+                    $row;
                 foreach ($row as $key => $field) {
                         $temp  = array( $key => $field );
                         array_push($row, $temp); 
@@ -159,7 +160,7 @@ Class Import extends NEMs_Controller{
                         $table_column[2] => $row['C'],
                         $table_column[3] => $row['D'],
                         $table_column[4] => $row['E'],
-                        // $table_column[5] => $row['F']
+                        $table_column[5] => $row['F']
                     );
                     $this->temp_import_db->insert($table_name , $data);
                 }
@@ -168,7 +169,7 @@ Class Import extends NEMs_Controller{
             return $array_data;
     } //readExcel
 
-    private function uploadProcess($import_name){
+    public function uploadProcess($import_name){
             if($this->upload->do_upload($import_name)) {
                 $data = array('upload_data' => $this->upload->data());
                 $path = $data['upload_data']['full_path'];  
@@ -179,7 +180,7 @@ Class Import extends NEMs_Controller{
                 $message_upload =  $this->upload->display_errors();
                 $array_data = array( 'status' => FALSE  , 'msg_error' => $message_upload );
                 return $array_data;
-                // $this->output('testresult/v_import' , $data);
+                // $this->output('testresult/import' , $data);
             }
     } // end uploadProcess
 

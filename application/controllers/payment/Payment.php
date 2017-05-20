@@ -30,17 +30,17 @@ class Payment extends NEMs_Controller {
 	{
 		//author by suphunnee prajongjai 18/04/2017
 		date_default_timezone_set('Asia/Bangkok');
-		$sql ="SELECT * FROM `tb_payment_status` WHERE ps_type = 'B'";
+		$sql ="SELECT * FROM `pa_base_status` WHERE bs_type = 'B'";
 		$query = $this->pa_db->query($sql);
 		$this->data['rs_option_status'] = $query;
 		
 		
-		$sql ="SELECT * FROM tb_payment LEFT JOIN tb_payment_status ON   pay_ps_id = ps_id ";
+		$sql ="SELECT * FROM pa_payment LEFT JOIN pa_base_status ON   pay_bs_id = bs_id ";
 		$query = $this->pa_db->query($sql);
 		$this->data['rs_payment'] = $query;
 		
 		if($pay_id){
-			$sql ="SELECT * FROM tb_payment WHERE pay_id = '$pay_id' ";
+			$sql ="SELECT * FROM pa_payment WHERE pay_id = '$pay_id' ";
 			$query = $this->pa_db->query($sql);
 			$this->data['rs_edit'] = $query;
 		}
@@ -56,36 +56,33 @@ class Payment extends NEMs_Controller {
 		$pay_id 		= $this->input->post('pay_id');
 		$pay_bs_id		= $this->input->post('pay_bs_id');
 		$pay_bill		= $this->input->post('pay_bill');
-		echo $this->input->post('pay_date');
-		echo $pay_date		= date("Y/m/d",$this->input->post('pay_date'));  die;
+		$pay_date		= date("Y/m/d H:i:s",strtotime($this->input->post('pay_date')) ); 
 		$pay_amount		= $this->input->post('pay_amount');
 		$pay_receiver	= $this->input->post('pay_receiver');
 		$pay_createdate	= date("Y-m-d H:i:s");
 		$pay_creator	= $this->session->userdata('username');
 		
-		//echo $pay_id;
-		if($pay_id!="0"){
+		if(!$pay_id){
 			
-			$sql = "UPDATE tb_payment 
-					SET	pay_ps_id='$pay_bs_id',pay_bill='$pay_bill',pay_date='$pay_date',pay_amount='$pay_amount',pay_receiver='$pay_receiver',pay_createdate='$pay_createdate',pay_creator='$pay_creator'
-					WHERE pay_id='$pay_id'";
-			$this->pa_db->query($sql);
-			
-		}else{
-			$sql = "INSERT INTO tb_payment (pay_id,pay_ps_id,pay_bill,pay_date,pay_amount,pay_receiver,pay_createdate,pay_creator)
+			$sql = "INSERT INTO pa_payment (pay_id,pay_bs_id,pay_bill,pay_date,pay_amount,pay_receiver,pay_createdate,pay_creator)
 					VALUES('$pay_id', '$pay_bs_id', '$pay_bill', '$pay_date', '$pay_amount','$pay_receiver', '$pay_createdate','$pay_creator')";
+			$this->pa_db->query($sql);
+		}else{
 			
+			$sql = "UPDATE pa_payment 
+					SET	pay_bs_id='$pay_bs_id',pay_bill='$pay_bill',pay_date='$pay_date',pay_amount='$pay_amount',pay_receiver='$pay_receiver',pay_createdate='$pay_createdate',pay_creator='$pay_creator'
+					WHERE pay_id=$pay_id";
 			$this->pa_db->query($sql);
 			
 		}
-		//echo $sql;
-		 redirect('/payment/Payment/index'); //$this->index();
+		
+		$this->index();
 	}
 	
 	function delete_by_payid(){
 		//author by suphunnee prajongjai 18/04/2017
 		$pay_id = $this->input->post('pay_id');
-		$sql = "DELETE FROM tb_payment
+		$sql = "DELETE FROM pa_payment
 				WHERE pay_id= $pay_id";
 		$this->pa_db->query($sql);
 		echo "YES";

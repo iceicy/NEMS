@@ -88,8 +88,8 @@
             <label class="col-lg-2 control-label">ระยะเวลาที่ใช้สอบ</label>
             <div class="col-lg-2">
                 <input type="text" placeholder="เวลา" class="form-control">
-            </div> 
-            <label class="col-lg-1 control-label">นาที</label>
+            </div>
+            <label class="col-lg-3 control-label">นาที</label>
         </div>
         <br>
         <div class="form-group">
@@ -98,39 +98,6 @@
                  <button type="submit" class="btn btn-sm btn-success pull-left">บันทึก</button>
             </div>
         </div>
-                    <form class="form-horizontal">
-                      <fieldset>
-                     <legend>ข้อมูลวิชาสอบ</legend>
-        <table id="datatable3" class="table table-striped table-hover">
-           <thead>
-             <tr>
-                <th>ID</th>
-                <th>รหัสวิชา</th>
-                <th>ชื่อวิชา</th>
-                <th>วันที่สอบ</th>
-                <th>เวลาที่สอบ</th>
-                <th>ระยะเวลา(นาที)</th>
-                <th>Management</th>
-              </tr>
-
-           </thead>
-           <tbody>
-              <tr class="gradeX">
-                <td>1</td>
-                <td>xxxxxx</td>
-                 <td>คณิตศาสตร์</td>
-                 <td>12/05/2017</td>
-                 <td>08:30 - 10:00</td>
-                 <td>120</td>
-                 <td>
-                       <button type="Find" class="btn btn-sm btn-default">แก้ไข</button>
-                       <button type="Createbarcode" class="btn btn-sm btn-default">ลบ</button>
-                 </td>
-              </tr>
-
-           </tbody>
-
-        </table>
         </div>
       </div>
     </div>
