@@ -13,7 +13,7 @@ Class Register extends NEMsAuth_Controller{
         parent::__construct();
         $this->load->library('form_validation');
     	$this->config->load('logistic_config');
-    	$this->config->load('config');
+    	$this->config->load('exam_config');
     	$this->load->helper('mysqli');
     }
 
@@ -21,7 +21,7 @@ Class Register extends NEMsAuth_Controller{
     	$this->load->model($this->config->item('lg_dir') . 'M_Other', 'ot');
     	$this->data['op_subject'] = $this->ot->get_option_subject();
 
-    	$this->load->model($this->config->item('exam_dir') . 'Registration', 'exam');
+    	$this->load->model($this->config->item('exam_dir') . 'registration', 'exam');
     	$this->data['data_tables'] = $this->exam->getRegistrations();
 
     	// $this->load->model($this->config->item('lg_dir') . 'M_Other', 'ot');

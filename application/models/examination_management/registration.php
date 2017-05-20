@@ -8,7 +8,7 @@ class Registration extends CI_Model {
 	var $subj_time;
 	var $subj_price;
 	
-	function Registration() {
+	function __construct() {
 		parent::__construct();
 	}
 
