@@ -5,6 +5,20 @@
     </a>
     <ul id="menu_module_payment_and_audit" class="nav sidebar-subnav collapse">
         <li class="sidebar-subnav-header">Payment and Audit</li>
+		<li class=" ">
+            <a href="<?php echo site_url( 'payment/Payment/');?>" title="Payment Management" >
+                <span>Payment Management</span>
+            </a>
+        </li>
+       
+		
+		<!-- Import payment-->
+		<li class=" ">
+            <a href="<?php echo site_url("payment/Import/import_file");?>" title="Import Payment" >
+                <span>Import Payment</span>
+            </a>
+        </li>
+		
         <li class=" ">
             <a href="<?php echo site_url( 'audit/Audit/report1');?>" title="Report 1" >
                 <span>Report 1</span>
@@ -45,28 +59,7 @@
                 <span>Report 8</span>
             </a>
         </li>
-        <li class=" ">
-            <a href="<?php echo site_url( 'payment/Payment/payment1');?>" title="รายงาน payment 1" >
-                <span>Payment 1</span>
-            </a>
-        </li>
-        <li class=" ">
-            <a href="<?php echo site_url( 'payment/Payment/payment2');?>" title="รายงาน payment 2" >
-                <span>Payment 2</span>
-            </a>
-        </li>
-        <li class=" ">
-            <a href="<?php echo site_url( 'payment/Payment/payment3');?>" title="รายงาน payment 3" >
-                <span>Payment 3</span>
-            </a>
-        </li>
-		
-		<!-- Import payment-->
-		<li class=" ">
-            <a href="<?php echo site_url("payment/Import/import_file");?>" title="นำเข้าข้อมูลการชำระเงิน" >
-                <span>นำเข้าข้อมูลการชำระเงิน</span>
-            </a>
-        </li>
+        
 		
     </ul>
 </li>

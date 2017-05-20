@@ -1,19 +1,21 @@
 <?php
+/**
+ * User: Developer Jirayus
+ * Date: 6/5/2560
+ * Time: 5:03
+ */
 
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+include_once('Logistics_Controllers.php');
 
-include_once(__DIR__ . '/../NEMs_Controller.php');
-
-Class Report_Logistics extends NEMs_Controller
+class Report_Logistics extends Logistics_Controllers
 {
     function __construct()
     {
         parent::__construct();
     }
 
-    public function index()
+    function index()
     {
-
-        $this->output('logistics/report/v_report_logistics');
+        $this->output($this->config->item('lg_dir').'report/v_main');
     }
 }

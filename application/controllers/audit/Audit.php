@@ -40,15 +40,29 @@ class Audit extends NEMs_Controller {
 	
 	public function report4()
 	{
+		// $subject_id = $this->input->post('subject_id');
+		// $sql ="SELECT * FROM 'tresult_iscore' WHERE subject_id = '$subject_id'";
+		// $query = $this->testresult_db->query($sql);
+		// $this->data['testresult_score'] = $query;
 		
-		$this->output('Audit/report4');
+		
+		// $sql ="SELECT * FROM tb_payment LEFT JOIN tb_payment_status ON   pay_ps_id = ps_id ";
+		// $query = $this->pa_db->query($sql);
+		// $this->data['rs_payment'] = $query;
+		
+		// if($pay_id){
+		// 	$sql ="SELECT * FROM tb_payment WHERE pay_id = '$pay_id' ";
+		// 	$query = $this->pa_db->query($sql);
+		// 	$this->data['rs_edit'] = $query;
+		// }
+		$this->output('Audit/v_report4');
 	}
 	
 	
 	public function report5()
 	{
 		
-		$this->output('Audit/report5');
+		$this->output('Audit/v_report5');
 	}
 	
 	

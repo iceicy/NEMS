@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
@@ -12,18 +11,25 @@ class News extends NEMs_Controller
     {
         parent::__construct();
     }
-
     public function form()
     {
         $this->output('registration/news/form');
     }
-
     public function list()
     {
         $this->output('registration/news/list');
     }
     public function listview()
     {
+        //$this->_print($this->session->userdata());
         $this->output('registration/news/listview');
+    }
+    public function _print($mval = '')
+    {
+        if ($mval) {
+            echo '<pre>';
+            print_r($mval);
+            echo '</pre>';
+        }
     }
 }

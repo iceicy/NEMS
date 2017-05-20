@@ -29,7 +29,20 @@
                     </a>
                 </li>
                 <!-- START User avatar toggle-->
-                <li>
+                <?php
+                    //echo $this->session->userdata('user_name');
+                    $ckstyle = $_urllog = $_title = '';
+                    if ($this->session->userdata('user_name')) {
+                        $ckstyle = '';
+                        $_urllog = site_url('registration/login/logout');
+                        $_title = 'Logout';
+                    } else {
+                        $ckstyle = 'display:none;';
+                        $_urllog = site_url('registration/login');
+                        $_title = 'Login';
+                    }
+                ?>
+                <li style="<?php echo $ckstyle; ?>">
                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
                     <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
                         <em class="icon-user"></em>
@@ -43,7 +56,7 @@
                     </a>
                 </li>-->
                 <li>
-                    <a href="<?php echo site_url('registration/login'); ?>" title="Logout">
+                    <a href="<?php echo $_urllog; ?>" title="<?php echo $_title; ?>">
                         <em class="icon-lock"></em>
                     </a>
                 </li>
