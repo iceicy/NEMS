@@ -55,6 +55,7 @@ class Singup extends NEMs_Controller
             $u_time = date('Y-m-d H:i:s');
             if ($user) {
                 // tb_user_login
+                //print_r($user);exit;
                 $user['user_name'] = $student_ID;
                 $user['password'] = md5($user['password']);
                 $user['account_status'] = 'Activated'; //'To Be Confirm';// Fix for test

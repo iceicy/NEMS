@@ -4,12 +4,12 @@
     <nav role="navigation" class="navbar topnavbar">
         <!-- START navbar header-->
         <div class="navbar-header">
-            <a href="<?php echo base_url(); ?>" class="navbar-brand">
+            <a href="<?php echo base_url();?>" class="navbar-brand">
                 <div class="brand-logo">
-                    <img src="<?php echo base_url(); ?>assets/img/logo.png" alt="App Logo" class="<?php echo base_url(); ?>assets/img/-responsive">
+                    <img src="<?php echo base_url();?>assets/img/logo.png" alt="App Logo" class="<?php echo base_url();?>assets/img/-responsive">
                 </div>
                 <div class="brand-logo-collapsed">
-                    <img src="<?php echo base_url(); ?>assets/img/logo-single.png" alt="App Logo" class="<?php echo base_url(); ?>assets/img/-responsive">
+                    <img src="<?php echo base_url();?>assets/img/logo-single.png" alt="App Logo" class="<?php echo base_url();?>assets/img/-responsive">
                 </div>
             </a>
         </div>
@@ -30,6 +30,7 @@
                 </li>
                 <!-- START User avatar toggle-->
                 <?php
+                    //echo $this->session->userdata('user_name');
                     $ckstyle = $_urllog = $_title = '';
                     if ($this->session->userdata('user_name')) {
                         $ckstyle = '';
