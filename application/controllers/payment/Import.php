@@ -8,6 +8,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once(dirname(__FILE__)."/../NEMs_Controller.php");
 
 class Import extends NEMs_Controller {
+	public $data = array();
+	
 	public function __construct(){
         parent::__construct();
 	}
@@ -32,9 +34,37 @@ class Import extends NEMs_Controller {
  * @Create Date: 2560-04-11
 */
 	public function import_file(){
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		$this->data["rs_year_exam"] = $this->payment->get_year_exam();
 		
 		$this->output("Payment/v_import_excel",$this->data);
 	}//end fn import_file
+	
+	public function type_exam_option(){
+		$this->load->model("payment/M_pa_payment","payment");
+		
+		$bgy_value = $this->input->post("im_edu_bgy");
+		$default_selected = "";
+		//ค้นหาประเภทการสอบ ตามปีการศึกษาที่เลือก
+		$rs_type_exam = $this->payment->get_type_exam_by_year($bgy_value);
+		if($rs_type_exam->num_rows()>0){
+			echo "<option value=\"\">--- เลือก ---</option>";
+			foreach($rs_type_exam->result() as $type_ex){
+				$selected = "";
+				if($type_ex->TypeID == $default_selected){
+					$selected = "selected";
+				}
+				echo "<option ".$selected." value=".$type_ex->TypeID.">".$type_ex->TypeName."(".$type_ex->Term.")</option>";
+			}
+		}else{
+			
+			echo "<option value=\"\">--- ไม่พบข้อมูล ---</option>";
+		}
+		
+		
+	}//end fn type_exam_option
+	
 	
 /* fn excelColumnRange 
  * Getting column title of excel 
@@ -113,7 +143,7 @@ class Import extends NEMs_Controller {
 				/* start ROW && COLUMN */
 				$sheet_active = 0;
 				$start_row = 2;
-				$start_col = 'B';	
+				$start_col = 'A';	
 				
 				// Get worksheet dimensions
 				$sheet = $objPHPExcel->getSheet($sheet_active); //Selecting sheet 0				
@@ -131,52 +161,34 @@ class Import extends NEMs_Controller {
 					foreach($column_key as $row_col){
 						/***************** start expend **********************/
 						if(!empty($row_col)){
-							$pay_ref 		= "";	 //type ของโครงการ / กิจกรรม (P = โครงการ , A = กิจกรรม)
-							$pay_code 		= "";	
-							$pay_date 		= "";	
-							$pay_resource 	= "";	
-							$pay_sub 		= ""; 	
-							$pay_list 		= "";	
-							$pay_amount		= "";
-							$pay_note 		= "";
+							$pay_status		= 2; 	//สถานะการชำระเงิน
+							$pay_bill_no	= "";	//ref billNo
+								
+							$pay_date 		= "0000-00-00";	
+							$pay_amount		= 0.00; //จำนวนเงินที่ชำระ
+							$pay_receiver   = ""; 	//ผู้รับชำระเงิน
+							$pay_creator 	= "";   //ผู้บันทึก  ต้องมาจาก login
 						foreach($row_col as $key_col => $val_col){
 							// แปลง index column เป็น name column
 							$colIndex = PHPExcel_Cell::stringFromColumnIndex($key_col);
 							//echo "<br/>".$key_col.":".$colIndex;
 							$val_column = "";
-							if($colIndex == "D"){ //วันที่จ่าย
-								//$val_column = $sheet->getCell($colIndex.$row)->getFormattedValue();
-								//$val_column = $sheet->getCell($colIndex.$row)->getValue();
-								
-								
-								//Case 2
+							if($colIndex == "C"){ //วันที่จ่าย
 								$val_date =  date('d/m/Y', PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell($colIndex.$row)->getValue()));
 								$val_column = $val_date;
-								
-								
-								/*$str_date = explode("/",$val_date);
-								$year = $str_date[2];
-								if($year < 2550){
-									$val_column = splitDateForm4Buddish($val_date);
-								}else{
-									$val_column = $val_date;
-								}*/
-								
-								
 							}else{
 								$val_column = $sheet->getCell($colIndex.$row)->getValue();
+								if(empty($val_column) || $val_column == ""){
+									$val_column = $val_col;
+								}
 							}
 							//echo "col:".$colIndex." : ".$val_column."<br/>";
-								
+								//echo "==> ".$val_col."===> ".$val_column;
 							if(!empty($val_column)){
-								if($colIndex == "B") $pay_ref 		= $val_column;
-								if($colIndex == "C") $pay_code 		= $val_column;
-								if($colIndex == "D") $pay_date 		= $val_column;
-								/*if($colIndex == "E") $pay_resource 	= $val_column;
-								if($colIndex == "F") $pay_sub 		= $val_column;
-								if($colIndex == "G") $pay_list 		= $val_column;*/
-								if($colIndex == "E") $pay_amount 	= $this->remove_comma($val_column);
-								if($colIndex == "F") $pay_note 		= strip_tags(trim(preg_replace("<br/>", "", $val_column)));
+								if($colIndex == "B") $pay_bill_no 	= $val_column;
+								if($colIndex == "C") $pay_date 		= $val_column;
+								if($colIndex == "D") $pay_amount 	= $this->remove_comma($val_column);
+								if($colIndex == "E") $pay_receiver 	= $val_column;
 							}
 						}//end each row_col
 						
@@ -194,14 +206,10 @@ class Import extends NEMs_Controller {
 					
 					//splitDateFormTH($pay_date)
 					array_push($arr_data,array(
-								"pay_ref" => $pay_ref,
-								"pay_code" => $pay_code,
-								"pay_date" => $pay_date,
-								/*"pay_resource" => $pay_resource,
-								"pay_sub" => $pay_sub,
-								"pay_list" => $pay_list,*/
-								"pay_amount" => $pay_amount,
-								"pay_note" => $pay_note
+								"arr_bill_no" => $pay_bill_no,
+								"arr_date" => $pay_date,
+								"arr_amount" => $pay_amount,
+								"arr_receiver" => $pay_receiver
 					));
 				}//end each row
 				$this->data["section_txt"] = "ข้อมูลการชำระเงิน";	
@@ -216,120 +224,118 @@ class Import extends NEMs_Controller {
 	
 	function save_payment(){
 		
-		//$this->load->model($this->config->item("pbms_module_project")."M_pbms_budget_spend","budget_spend");
-		
+		$this->load->model("payment/M_pa_payment","payment");
+		$pay_creator = "Jiranun";
 		
 		$this->db->trans_begin();
 		
 		$im_bgy = $this->input->post("im_edu_bgy");				//ปีการศึกษา
-		$im_exam = $this->input->post("im_exam");				//ประเภทการสอบ
-		$spd_ref = json_decode($this->input->post("arr_ref"));				//รหัสอ้างอิงใบชำระเงิน
-		$spd_code = json_decode($this->input->post("arr_code"));			//รหัสผู้เข้าสอบ
-		$spd_date = json_decode($this->input->post("arr_date"));			//วันที่จ่าย
-		/*$spd_resource = json_decode($this->input->post("arr_resource"));	//แหล่งงบประมาณ
-		$spd_sub = json_decode($this->input->post("arr_sub"));				//หมวดงบประมาณ
-		$spd_list = json_decode($this->input->post("arr_list"));			//ประเภท/รายการค่าใช้จ่าย
-		*/
-		$spd_amount = json_decode($this->input->post("arr_amount"));		//จำนวนเงินค่าใช้จ่าย
-		$spd_note = json_decode($this->input->post("arr_note"));			// คอมเม้นต์
+		$im_exam = $this->input->post("im_exam");	
+		//ประเภทการสอบ
+		$arr_bill = json_decode($this->input->post("arr_bill"));			//รหัสอ้างอิงใบชำระเงิน
+		$arr_date = json_decode($this->input->post("arr_date"));			//วันที่จ่าย
+		
+		$arr_amount = json_decode($this->input->post("arr_amount"));		//จำนวนเงินค่าใช้จ่าย
+		$arr_receiver = json_decode($this->input->post("arr_receiver"));	// ผู้รับเงิน/รับชำระ
 			
-		$list_code = array();
+		$list_bill = array();
 		$list_date = array();
-		$list_month = array();
-		$list_resource = array();
-		$list_sub = array();
-		$list_cost = array(); //ค่าใช้จ่าย
 		$list_amount = array();
-		$list_note = array(); //หมายเหตุ
-		$seq = $seq1 = $seq2= $seq3 = $seq4 = $seq5= $seq6 = $seq7= $seq8 = 0;
+		$list_receiver = array();
+		$seq1 = $seq2= $seq3 = $seq4 = 0;
 		
 		
 		//รหัสอ้างอิงใบชำระเงิน
-		foreach($spd_code as $value) {
-			echo "<br/>".$list_code[$seq] = $value;
-			$seq++;
+		foreach($arr_bill as $value) {
+			echo "<br/>".$list_bill[$seq1] = $value;
+			$seq1++;
 		}		
 		
 		//วันที่ใช้จ่าย
-		foreach($spd_date as $value) {
-			$list_date[$seq1] = $this->splitDate($value);
-			$month = date("m",strtotime($list_date[$seq1]));
-			$list_month[$seq1] = $month;
-			//echo "<br/>".$month." : ".$list_date[$seq1];
-			$seq1++;
-		}
-		/*
-		//แหล่งงบประมาณ
-		foreach($spd_resource as $value) {
-			$list_resource[$seq2] = $value;
+		foreach($arr_date as $value) {
+			$list_date[$seq2] = $this->splitDate($value);
 			$seq2++;
 		}
-		
-		//หมวดงบประมาณ
-		foreach($spd_sub as $value) {
-			if(empty($value) || $value == "-" || $value == 0 || $value == ""){
-				$value = null;
-			}
-			$list_sub[$seq3] = $value;
-			$seq3++;
-		}	
-		
-		//ค่าใช้จ่าย
-		foreach($spd_list as $value) {
-			if(empty($value)){
-				$value = "";
-			}
-			$list_cost[$seq4] = strip_tags(trim(preg_replace("<br/>", "", $value)));
-			$seq4++;
-		}	
-		*/
-		
-		
-		//จำนวนงบประมาณ
-		foreach($spd_amount as $value) {
+		//จำนวนเงินที่ชำระ
+		foreach($arr_amount as $value) {
 			if(empty($value)){
 				$value = 0;
 			}
-			$list_amount[$seq5] = $this->remove_comma($value);
-			$seq5++;
+			$list_amount[$seq3] = $this->remove_comma($value);
+			$seq3++;
 		}
 		
-		//หมายเหตุ
-		foreach($spd_note as $value) {
+		//ผู้รับชำระ
+		foreach($arr_receiver as $value) {
 			if(empty($value)){
 				$value = "";
 			}
-			$list_note[$seq6] = strip_tags(trim(preg_replace("<br/>", "", $value)));
-			$seq6++;
+			$list_receiver[$seq4] = trim(preg_replace('/\s\s+/', ' ', $value));
+			$seq4++;
 		}	
 		
 		
 		
 		$str = "";
-		//ใช้งบประมาณ ใบเบิก
 		$str_notice = array();
-		$no = 0;
+		
 		$bgy_title = "";
-		if(!empty($spd_ref && count($spd_ref)>0 ) ){			
-			$pj_bgy_id = 0;
-			foreach($spd_ref as $ref) {
+		if(!empty($arr_bill && count($arr_bill)>0 ) ){
+			$no = 0;
+			foreach($arr_bill as $billNo) {
 				//หาเลขที่อ้างอิงใบชำระเงิน
-				if(!empty($ref)){
+				$bill_ref = "";
+				$bill_amount = "";			// จำนวนเงิน ที่ต้องชำระ
+				$bill_amount_actual = ""; 	// จำนวนเงิน ที่ชำระจริง
+				$qu_bill = $this->payment->get_bill($billNo)->row_array();
 				
-					/************* Insert in to DB **************/				
+				if(!empty($qu_bill["BillNo"])){
+					$bill_ref = $qu_bill["BillNo"];
+					$bill_amount = (float)$qu_bill["ExamAmount"];
+				}				
+				
+				
+				if(!empty($bill_ref)){				
+					/************* Insert in to DB **************/
+					//ตรวจสอบยอดการชำระ
+					$bill_amount_actual = (float)$list_amount[$no];
+					$payment_status = 0;
+					if($bill_amount_actual == $bill_amount){
+						$payment_status = 6; //ชำระเรียบร้อย
+					}else if($bill_amount_actual == 0.00){
+						$payment_status = 7; //ยังไม่ชำระเรียบร้อย
+						
+					}else{
+						if($bill_amount_actual > 0.00 && ($bill_amount_actual != $bill_amount)){
+							$payment_status = 8; //ชำระไม่ครบตามจำนวน
+						}
+						
+					}
 					
+					$this->payment->pay_id = "";			
+					$this->payment->pay_ps_id = "";				//สถานะการชำระเงิน
+					$this->payment->pay_bill = $bill_ref;				//รหัสอ้างอิงใบชำระเงิน
+					$this->payment->pay_date = $list_date[$no];				//วันที่จ่าย
+					$this->payment->pay_amount = $list_amount[$no];			//จำนวนเงินที่ชำระ
+					$this->payment->pay_receiver = $list_receiver[$no];			//ผู้รับชำระเงิน
+					$this->payment->pay_createdate = "";		//วันที่จ่าย
+					$this->payment->pay_creator = $pay_creator;	//ผู้นำเข้า/ผู้บันทึก
+					$this->payment->insert();				
+					
+					//อัปเดต เงินที่ชำระจริงของใบแจ้งชำระเงิน
+					$this->payment->update_bill($bill_ref, $list_amount[$no]);
 					
 					$str_notice = "success";
 				}//end get data
 				else{		
-					$str_notice = "--- Not found ---";
+					$str_notice = "--- Not found billNo ".$bill_ref." ---";
 					echo "--- Not found ---";
 				}
 							
 				
 				$no++;
-			}//end each insert from check spd_ref
-		}//end check spd_ref ! empty
+			}//end each insert from check arr_ref
+		}//end check arr_ref ! empty
 		
 		
 		//check trans_commit
@@ -348,7 +354,7 @@ class Import extends NEMs_Controller {
 			$data["json_type"] = "success";
 			$data["str_notice"] = "COMMIT: ";
 			$data["data_notice"] = $str_notice;
-			$data["json_str"] = "นำเข้าข้อมูลการใช้งินสำเร็จ  ปีงบประมาณ  ".$bgy_title;
+			$data["json_str"] = "นำเข้าข้อมูลการใช้งินสำเร็จ ";
 			$data["json_alert"] = true;
 			echo json_encode($data);
 		}

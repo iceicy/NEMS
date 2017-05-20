@@ -88,6 +88,7 @@ class News extends NEMs_Controller
     }
     public function listview()
     {
+<<<<<<< HEAD
         $data['qu_first_news'] = $this->form->get_first_news();
         $data['qu_news_more'] = $this->form->get_news_more();
         $data['qu_first_news_pin'] = $this->form->get_first_news_pin();
@@ -126,4 +127,17 @@ class News extends NEMs_Controller
 
     }
 
+=======
+        //$this->_print($this->session->userdata());
+        $this->output('registration/news/listview');
+    }
+    public function _print($mval = '')
+    {
+        if ($mval) {
+            echo '<pre>';
+            print_r($mval);
+            echo '</pre>';
+        }
+    }
+>>>>>>> origin/master
 }

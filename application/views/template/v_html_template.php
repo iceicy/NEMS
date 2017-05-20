@@ -78,7 +78,9 @@
     <script src="<?php echo base_url(); ?>assets/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/testresult/app.js""></script>  
-
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"></script>
 
 </head>
 
@@ -107,8 +109,16 @@
                                 </div>
                                 <!-- Name and Job-->
                                 <div class="user-block-info">
-                                    <span class="user-block-name">Software Engineering, KMUTT</span>
-                                    <span class="user-block-role">SE 13th</span>
+                                    <?php
+                                      $fname = '';
+                                      $fname .= $this->session->userdata('title').' ';
+                                      $fname .= $this->session->userdata('first_name').' ';
+                                      $fname .= $this->session->userdata('last_name');
+                                      ?>
+                                    <span class="user-block-name"><?php echo $fname; ?></span>
+                                    <span class="user-block-role"><?php echo $this->session->userdata('student_ID'); ?></span>
+                                    <!--span class="user-block-name">Software Engineering, KMUTT</span>
+                                    <span class="user-block-role">SE 13th</span-->
                                 </div>
                             </div>
                         </div>

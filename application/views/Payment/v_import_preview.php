@@ -9,11 +9,6 @@
 
 
 <script type="text/javascript">
-/*$( document ).ready(function() {
-//Fixed Header of dataTable
-	var table = $('#table_expend').dataTable();
-	new $.fn.dataTable.FixedHeader( table ); 
-});*/
 
 function prev_page(){
 	window.location.href = "<?php echo site_url()."/payment/Import/import_file";?>";
@@ -31,71 +26,41 @@ function prev_page(){
 function import_data(){
 		var im_edu_bgy = document.getElementById("im_edu_bgy").value;
 		var im_exam = document.getElementById("im_exam").value;
-		var ref_item = document.getElementsByName("ref_item[]");
-		var code_item = document.getElementsByName("code_item[]");
-		var date_item = document.getElementsByName("date_item[]");
-		/*var resource_item = document.getElementsByName("resource_item[]");
-		var sub_item = document.getElementsByName("sub_item[]");
-		var list_item = document.getElementsByName("list_item[]");
-		*/
-		var amount_item = document.getElementsByName("amount_item[]");
-		var note_item = document.getElementsByName("note_item[]");
-			
-		var arr_ref = [];
-		var arr_code = [];
-		var arr_date = [];
-		var arr_resource = [];
-		var arr_sub = [];
-		var arr_list = [];
-		var arr_amount = [];
-		var arr_note = [];
 		
-		$.each(ref_item,function(index,obj){
-			arr_ref.push(obj.value);
+		var list_bill = document.getElementsByName("arr_bill[]");
+		var list_date = document.getElementsByName("arr_date[]");
+		var list_amount = document.getElementsByName("arr_amount[]");
+		var list_receiver = document.getElementsByName("arr_receiver[]");
+		
+		var arr_bill = [];
+		var arr_date = [];
+		var arr_amount = [];
+		var arr_receiver = [];
+		
+		$.each(list_bill,function(index,obj){
+			arr_bill.push(obj.value);
 		});
 				
-		$.each(code_item,function(index,obj){
-			arr_code.push(obj.value);
-		});
-		
-		$.each(date_item,function(index,obj){
+		$.each(list_date,function(index,obj){
 			arr_date.push(obj.value);
 		});
-		/*
-		$.each(resource_item,function(index,obj){
-			arr_resource.push(obj.value);
-		});
 		
-		$.each(sub_item,function(index,obj){
-			arr_sub.push(obj.value);
-		});
-		
-		$.each(list_item,function(index,obj){
-			arr_list.push(obj.value);
-		});
-		*/
-		$.each(amount_item,function(index,obj){
+		$.each(list_amount,function(index,obj){
 			arr_amount.push(obj.value);
 		});
 		
-		$.each(note_item,function(index,obj){
-			arr_note.push(obj.value);
+		$.each(list_receiver,function(index,obj){
+			arr_receiver.push(obj.value);
 		});
 		
-		/*
-		arr_resource:JSON.stringify(arr_resource),
-					arr_sub:JSON.stringify(arr_sub),
-					arr_list:JSON.stringify(arr_list),
-		*/
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url()."/payment/Import/save_payment";?>",
 			data: {	im_edu_bgy : im_edu_bgy,im_exam : im_exam,
-					arr_ref:JSON.stringify(arr_ref),
-					arr_code:JSON.stringify(arr_code),
-					arr_date:JSON.stringify(arr_date),					
-					arr_amount:JSON.stringify(arr_amount),
-					arr_note:JSON.stringify(arr_note)
+					arr_bill:JSON.stringify(arr_bill),
+					arr_date:JSON.stringify(arr_date),
+					arr_amount:JSON.stringify(arr_amount),					
+					arr_receiver:JSON.stringify(arr_receiver)
 			},
 			dataType : "json",
 			success : function(data){				
@@ -127,33 +92,26 @@ function import_data(){
 						<tr class="info">
 							<th width="3%">ลำดับ</th>
 							<th width="10%">รหัสอ้างอิงใบชำระเงิน</th>
-							<th width="10%">รหัสประจำตัวผู้เข้าสอบ</th>
 							<th width="10%">วันที่ชำระ</th>					
 							<th width="10%">จำนวนเงินที่ชำระ (บาท)</th>
-							<th >หมายเหตุ</th>
+							<th >ผู้รับชำระ</th>
 						</tr>
 					</thead>
 					<tbody>
 					<?php 
 						if(count($rs_data)>0){
 							$seq = 1;
-							foreach($rs_data as $key_pj => $val_pj){
+							foreach($rs_data as $key => $val){
+									//echo $val["arr_receiver"];
 					?>
 						<tr>
 								<td><?php echo $seq;?></td>
-								<!--A--> <td><input type="text" name="ref_item[]" value="<?php echo $val_pj["pay_ref"];?>" /></td>
-								<!--B--> <td><input type="text" name="code_item[]" value="<?php echo $val_pj["pay_code"];?>" /></td>
-								<!--C--> <td><input type="text" name="date_item[]" value="<?php echo $val_pj["pay_date"];?>" /></td>
-								<?php 
-								/*
-								<!--D--> <td><input type="text" name="resource_item[]" value="<?php echo $val_pj["pay_resource"];?>" /></td>
-								<!--E--> <td><input type="text" name="sub_item[]" value="<?php echo $val_pj["pay_sub"];?>" /></td>
-								<!--F--> <td><input type="text" name="list_item[]" value="<?php echo $val_pj["pay_list"];?>" /></td>
+								<!--A--> <td><input type="text" name="arr_bill[]" value="<?php echo $val["arr_bill_no"];?>" /></td>
+								<!--B--> <td><input type="text" name="arr_date[]" value="<?php echo $val["arr_date"];?>" /></td>
+								<!--C--> <td><input type="text" name="arr_amount[]" value="<?php echo $val["arr_amount"];?>" /></td>
 								
-								*/
-								?>
-								<!--G--> <td><input type="text" name="amount_item[]" value="<?php echo $val_pj["pay_amount"];?>" /></td>
-								<!--H--> <td><input type="text" name="note_item[]" value="<?php echo $val_pj["pay_note"];?>" /></td>
+								<!--G--> <td><input type="text" name="arr_receiver[]" value="<?php echo $val["arr_receiver"];?>" /></td>
+								
 						</tr>
 					<?php	
 								$seq++;
