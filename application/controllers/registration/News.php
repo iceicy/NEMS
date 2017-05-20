@@ -125,8 +125,6 @@ class News extends NEMs_Controller
         }
 
     }
-
-<<<<<<< HEAD
         //$this->_print($this->session->userdata());
         $this->output('registration/news/listview');
     }
@@ -144,6 +142,3 @@ class News extends NEMs_Controller
     }
 
 }
-=======
-}
->>>>>>> parent of 4aec86c... Jan commit
